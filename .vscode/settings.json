@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "shared/servlet-api.jar",
+        "shared/jsf-api-2.1.29-11.jar"
+    ]
+}
