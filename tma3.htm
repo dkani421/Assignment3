@@ -2,7 +2,7 @@
 <html>
    <head>
       <meta charset="UTF-8">
-      <title>TMA 2 Documentation</title>
+      <title>TMA 3 Documentation</title>
       <link rel="stylesheet" href="../shared/styles.css">
    </head>
    <body>
@@ -10,125 +10,169 @@
       <h2>Course Information</h2>
       <p>Course Number and Name: COMP 466</p>
       <h2>Assignment Information</h2>
-      <p>Assignment Number: 2</p>
+      <p>Assignment Number: 3</p>
       <h2>Student Information</h2>
       <p>Name: Dawson Kaniusis</p>
       <p>Student ID Number: 3645945</p>
       <h2>Dates</h2>
-      <p>Date Began Working: July 07 2023</p>
-      <p>Date Completed: August 10th 2023</p>
+      <p>Date Began Working: August 18 2023</p>
+      <p>Date Completed: </p>
       <h2>Time Spent</h2>
-      <p>Estimated Hours Spent on the Assignment: 80</p>
+      <p>Estimated Hours Spent on the Assignment: 5</p>
       <hr>
       <h1>Assignment Documentation</h1>
-      <h2><a href="./part1/index.php">Project 2: Part 1</a></h2>
+      <h2><a href="./part1/">Project 3: Part 1</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
-         For this project, I developed a web application using MySQL and PHP to provide an online bookmarking service to users on the Internet.
-         The site allows for the saving and editing of bookmarks and also lets the user see the top 10 bookmarks saved by all.
+         Part 1 of this project involves creating a web application using ASP.NET in C# that utilizes a persistent cookie to track the number of times a client computer has visited the page. The application is also required to display the IP address of the client computer and the time zone of the client's location.
       </p>
-      
-      <h3>Analysis and Design</h3>
-      <p>
-         To accomplish the requirements of Part 1, I followed the following analysis and design approach:
-      </p>
-      <ul>
-         <li>Requirement analysis: I thoroughly analyzed the project requirements to identify the key features and functionalities of the web application.</li>
-         <li>Interface design: I designed a thoughtful interface with menus and navigation buttons to enhance user experience and ensure ease of use.</li>
-         <li>Database design: I created a database structure to store and manage the user's bookmark data efficiently.</li>
-         <li>Validation design: I implemented JavaScript validation to ensure that the URLs provided by the user are not only correct but also active.</li>
-      </ul>
-      
       <h3>Implementation Documentation</h3>
       <p>
-         The implementation of Part 1 involved the following steps:
+         The implementation of Part 1 includes the following steps:
       </p>
-      <ol>
-         <li>Front-end development: I used HTML and CSS to develop the user interface, including the welcome message and bookmark lists. The interface was designed to be visually appealing and intuitive for users.</li>
-         <li>Back-end development: I utilized PHP to handle user authentication, perform database operations, and validate user inputs. The PHP code was structured and modular, adhering to best practices.</li>
-         <li>Database integration: I employed MySQL to store and manage the user's bookmark data. The database tables were designed to efficiently store and retrieve the required information.</li>
-      </ol>
-      
+      <ul>
+         <li>ASP.NET Application: Developed a web application using ASP.NET and C# to fulfill the project requirements.</li>
+         <li>Persistent Cookie: Implemented a persistent cookie to keep track of the number of visits by the client computer.</li>
+         <li>IP Address Retrieval: Utilized ASP.NET to retrieve and display the IP address of the client computer.</li>
+         <li>Time Zone Display: Incorporated functionality to show the time zone of the client computer's location.</li>
+      </ul>
       <h3>User Guide</h3>
       <p>
-         The following user guide provides instructions on how to use the web application developed for Part 1:
+         The following user guide explains how to use the web application developed for Part 1:
       </p>
       <ol>
          <li>Access the web application using the provided link.</li>
-         <li>Upon landing on the homepage, you will be greeted with a welcome message and a list of the ten most popular websites bookmarked by users.</li>
-         <li>To sign in, click on the appropriate link/button and enter your credentials. For now you can use the username, password combo <b>admin, admin</b>.</li>
-         <li>After signing in, you will be able to view your list of bookmarks.</li>
-         <li>To add a new website, click on the "Add Bookmark" button and provide the necessary details.</li>
-         <li>You can edit or delete existing bookmarks by selecting the appropriate options.</li>
-         <li>When adding or editing bookmarks, make sure to provide valid and active URLs to ensure proper functionality.</li>
+         <li>Upon visiting the page, you will see the number of times your client computer has visited the page.</li>
+         <li>The web application will also display your client computer's IP address and the time zone of your location.</li>
       </ol>
-      
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="./part1/index.php">Part 1</a></p>
-      <p>Services portforwarded through unsecure port 80 at <a href="http://68.147.61.110/">http://68.147.61.110/</a></p>
-
-      
+      <p>Site link: <a href="./part1/">Part 1</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
-      
       <hr>
-      
-      <h2><a href="./part2/index.php">Project 2: Part 2</a></h2>
+      <h2><a href="./part2/">Project 3: Part 2</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
-         In Part 2 of the assignment, I developed a small-scale online learning management system (LMS) that can be used to deliver online courses to learners. The requirements included the following aspects:
+         Part 2 of this project involves developing a web application using ASP.NET in C# that creates and runs a slideshow of a list of pictures. The application must meet the following requirements:
       </p>
       <ul>
-         <li>Designing a subject matter expert (SME)-friendly language (Educational Markup Language - EML) for marking up educational materials. <p>EML formatting: <a href="/teacherInput.eml">teacherInput.eml</a></p></li>
-         <li>Storing the course contents on the web server using a database for efficient management and retrieval. <p>Database creation: <a href="/database_creation.sql">database_creation.sql</a></p></li>
-         <li>Implementing a user management module for learner registration and login.</li>
-         <li>Allowing learners to view and select lessons within the system.</li>
-         <li>Developing a parser in PHP to translate EML content into HTML for storage and proper rendering.</li>
+         <li>Picture Information Storage: Information about the pictures will be stored on the server either in a database or a text file. Each picture's details will include its name, location or URL, and a description to be used as a caption.</li>
+         <li>Caption Display: The application will display captions under each picture in the slideshow.</li>
+         <li>Slideshow Controls: The application will feature a button to start/stop the slideshow and a control to toggle between random and sequential modes.</li>
+         <li>Manual Navigation: If in sequential mode, the application will provide buttons for manual navigation to move the slideshow backward or forward.</li>
+         <li>Picture Reuse: You have the option to reuse the pictures from assignment 1 to populate the slideshow.</li>
+         <li>Minimum Pictures: The slideshow will consist of at least 20 high-quality pictures.</li>
       </ul>
-      
-      <h3>Analysis and Design</h3>
-      <p>
-         To successfully meet the requirements of Part 2, I followed an analysis and design approach:
-      </p>
-      <ul>
-         <li>System analysis and design: I conducted a comprehensive analysis of the requirements, considering the data flow, functional modules of the learning management system, and the relationships among these modules. I also designed the system layout within the browser's window to ensure a seamless user experience.</li>
-         <li>Educational Markup Language (EML): I designed an EML that is user-friendly for subject matter experts (SMEs) to create educational materials. The EML included tags and their intended purposes, along with examples to aid in understanding and usage.</li>
-         <li>Database design: I designed the database structure to efficiently store information about courses, units, lessons, quizzes, learners, and other learning objects such as images, audio, and video files. The design included appropriate fields to identify the course and unit to which each lesson or quiz belongs.</li>
-         <li>Parser design: I implemented a PHP parser that retrieves the EML content from the database and translates it into HTML documents for proper rendering on a web browser.The parser was designed using PHP's regular expression functions for pattern matching and string replacement, ensuring accurate conversion from EML to HTML.
-    
-      </ul>
-      
       <h3>Implementation Documentation</h3>
       <p>
-         The implementation of Part 2 involved the following steps:
+         The implementation of Part 2 involves the following steps:
       </p>
-      <ol>
-         <li>Front-end development: I utilized HTML and CSS to create the user interface for the learning management system. The interface was designed to be visually appealing and intuitive, providing a seamless learning experience.</li>
-         <li>Back-end development: PHP was used to implement the user management module, allowing learners to register and obtain accounts within the system. Additionally, the backend was responsible for retrieving and delivering the course contents to the web browser, utilizing the parser to translate EML content into HTML for proper rendering.</li>
-         <li>Database integration: MySQL was used to store and manage various aspects of the learning management system, including course information, unit details, lesson and quiz content, learner data, and other associated learning objects such as images, audio, and video files. SQL scripts were provided to create the necessary tables and PHP files were developed to access the database for seamless integration.</li>
-      </ol>
-      
+      <ul>
+         <li>Front-end Development: Developed the user interface using ASP.NET and C#, ensuring the effective presentation of the slideshow and captions.</li>
+         <li>Picture Storage: Implemented a mechanism to store picture details on the server, utilizing either a database or a text file.</li>
+         <li>Caption Integration: Integrated captions for each picture, ensuring they are displayed appropriately beneath the corresponding images.</li>
+         <li>Slideshow Controls: Designed and programmed controls for starting and stopping the slideshow, as well as toggling between random and sequential modes.</li>
+         <li>Manual Navigation: Added buttons for manual navigation through the slideshow in sequential mode.</li>
+      </ul>
       <h3>User Guide</h3>
       <p>
-         To effectively use the online learning management system developed for Part 2, please follow the instructions outlined below:
+         The following user guide provides instructions on using the web application developed for Part 2:
       </p>
       <ol>
          <li>Access the web application using the provided link.</li>
-         <li>If you are a new user, register for an account by providing the necessary details.</li>
-         <li>Once registered, log in to the system using your credentials.</li>
-         <li>Upon successful login, you will be presented with a list of available lessons and quizzes.</li>
-         <li>Select a lesson to start or continue your learning journey.</li>
-         <li>The lesson content, written in EML, will be dynamically parsed into HTML and presented on your web browser for a seamless learning experience.</li>
-         <li>Complete quizzes associated with each lesson to assess your understanding.</li>
-         <li>Explore other functionalities provided by the learning management system, such as course selection, grade services, and more.</li>
+         <li>Upon visiting the page, you will encounter a captivating slideshow showcasing pictures with accompanying captions.</li>
+         <li>Utilize the controls provided to initiate and halt the slideshow, switch between random and sequential modes, and navigate manually through the images.</li>
       </ol>
-      
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="./part2/index.php">Part 2</a></p>
-      <p>Services portforwarded through unsecure port 80 at <a href="http://68.147.61.110/">http://68.147.61.110/</a></p>
-      
+      <p>Site link: <a href="./part2/">Part 2</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
-   <hr>
-</body>
+      <hr>
+      <h2><a href="./part3/">Project 3: Part 3</a></h2>
+      <h3>Project Description and Requirements</h3>
+      <p>
+         Part 3 of this project marks the development of an online computer store where customers can customize computers and place orders. The application is designed using ASP.NET in C# as the server-side language, integrating web technologies from Units 1–4. The requirements for this part are as follows:
+      </p>
+      <ul>
+         <li>Research and Analysis: Begin by studying the design and functionalities of popular online stores like Bestbuy.CA and Amazon.CA. Document your findings in the assignment report.</li>
+         <li>Design and Interface: Based on your research, analyze the requirements of the online store. Develop a design that features a realistic web browser-based interface. The design should include a store name, logo, navigational menus, buttons, and essential pages such as a welcome page, contact page, and feedback form.</li>
+         <li>Computer Listings: The online store will showcase a list of computers, along with lists of various components (RAM, hard drive, CPU, display, OS, soundcard, etc.) that customers can review. You can hard code the information about these products into the HTML or program files at this stage.</li>
+         <li>Customization: Customers can select a computer with its default configuration and pricing. The application will allow customers to customize the computer by changing components. The replacement will occur from a list of compatible components.</li>
+         <li>Dynamic Price Update: Whenever a customer makes a change to the computer's configuration, the total price should be dynamically recalculated and displayed within the online store, integrated into the page layout (not as a pop-up).</li>
+         <li>Order Summary: After a customer confirms their selections, such as clicking "Buy" or "Add to Cart," a summary of the chosen components, customized configuration, and the associated pricing will be displayed in the browser window.</li>
+         <li>Temporary Storage: Orders placed by customers do not need to be saved in a database at this stage. Instead, you can use Cookies to store and track customer selections temporarily.</li>
+         <li>Active Links and Buttons: Ensure all links, menus, and buttons within the online store are fully functional, providing a seamless user experience.</li>
+      </ul>
+      <h3>Implementation Documentation</h3>
+      <p>
+         The implementation of Part 3 includes the following steps:
+      </p>
+      <ul>
+         <li>Design Approach: Based on your research, design an intuitive and user-friendly web interface that emulates a real online store.</li>
+         <li>Component Lists: Incorporate the list of computers and component options into the HTML or program files.</li>
+         <li>Customization Logic: Develop the logic for customer customization, ensuring compatibility and accurate pricing adjustments.</li>
+         <li>Price Calculation: Implement the price calculation mechanism for customized computers.</li>
+         <li>Order Summary Display: Design and program the display of the order summary, featuring selected components and pricing.</li>
+         <li>Cookies Usage: Utilize Cookies to temporarily store customer selections and customizations.</li>
+      </ul>
+      <h3>User Guide</h3>
+      <p>
+         The following user guide provides instructions on using the web application developed for Part 3:
+      </p>
+      <ol>
+         <li>Access the web application using the provided link.</li>
+         <li>Navigate through the online store's interface, exploring computers and component options.</li>
+         <li>Select a computer with its default configuration or customize it by replacing components from the compatible list.</li>
+         <li>Observe the dynamic price updates as you make changes to the computer's configuration.</li>
+         <li>Upon confirmation of selections, review the order summary displaying your chosen components and pricing.</li>
+      </ol>
+      <h3>Web Application Link</h3>
+      <p>Site link: <a href="./part3/">Part 3</a></p>
+      <h3>Additional Notes</h3>
+      <p>No Additional Notes</p>
+      <hr>
+      <h2><a href="./part4/">Project 3: Part 4</a></h2>
+      <h3>Project Description and Requirements</h3>
+      <p>
+         Part 4 of this project extends the work accomplished in Part 3, focusing on the completion of a fully functional online computer store. The following tasks are included in this part of the assignment:
+      </p>
+      <ul>
+         <li>Customer Management Module: Integrate a customer management module into the online computer store. This module should encompass new customer registration, customer authentication, and password recovery functionalities.</li>
+         <li>Order Management Module: Develop an order management module that enables the saving of orders for registered customers. Registered customers should be able to manage their orders, including viewing lists and details of each item in the order, deleting or modifying selected orders.</li>
+         <li>Database Design and Implementation: Design and implement a back-end database that supports the online computer store's functionality. The database should fulfill the following tasks:</li>
+         <ul>
+            <li>Store Details: Store details of computers and components, replacing any hardcoded data in program files.</li>
+            <li>Customer Management: Utilize the database for all customer-related data, including registration details.</li>
+            <li>Order Management: Employ the database for all aspects of order management. Upon order submission, save order details including pricing in the database.</li>
+         </ul>
+      </ul>
+      <h3>Implementation Documentation</h3>
+      <p>
+         The implementation of Part 4 comprises the following steps:
+      </p>
+      <ul>
+         <li>Customer Module Integration: Incorporate a new customer management module, enabling new customer registration, authentication, and password recovery.</li>
+         <li>Order Management: Develop the order management module, allowing registered customers to view, modify, or delete their orders.</li>
+         <li>Database Creation: Design the database schema to accommodate computers, components, customers, and orders.</li>
+         <li>Data Integration: Replace hardcoded data in program files with data fetched from the database.</li>
+         <li>Database Usage: Implement the database for customer management and order management, including order details and pricing storage.</li>
+      </ul>
+      <h3>User Guide</h3>
+      <p>
+         The following user guide provides instructions on using the fully functional online computer store developed for Part 4:
+      </p>
+      <ol>
+         <li>Access the web application using the provided link.</li>
+         <li>If you are a new customer, proceed with registration to create an account.</li>
+         <li>Existing customers can log in using their credentials.</li>
+         <li>Explore the computer listings, customize your selection, and proceed to the order confirmation step.</li>
+         <li>Review the order summary, including components and pricing.</li>
+         <li>Registered customers can manage their orders, view order lists, details, and make modifications or deletions.</li>
+      </ol>
+      <h3>Web Application Link</h3>
+      <p>Site link: <a href="./part4/">Part 4</a></p>
+      <h3>Additional Notes</h3>
+      <p>No Additional Notes</p>
+      <hr>
+   </body>
 </html>
