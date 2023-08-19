@@ -1,0 +1,20 @@
+Sunset;Content/Images/image1.jpg;Beautiful sunset over the ocean.
+Mountain;Content/Images/image2.jpg;Majestic mountain landscape.
+Beach;Content/Images/image3.jpg;Relaxing day at the beach.
+City;Content/Images/image4.jpg;City skyline at night.
+Forest;Content/Images/image5.jpg;Serene forest scene.
+Desert;Content/Images/image6.jpg;Vast desert landscape.
+Waterfall;Content/Images/image7.jpg;Picturesque waterfall in the forest.
+Lake;Content/Images/image8.jpg;Tranquil lake surrounded by mountains.
+Flowers;Content/Images/image9.jpg;Colorful flowers in a garden.
+Bridge;Content/Images/image10.jpg;Old stone bridge over a river.
+Image 11;Content/Images/image11.jpg;Description 11.
+Image 12;Content/Images/image12.jpg;Description 12.
+Image 13;Content/Images/image13.jpg;Description 13.
+Image 14;Content/Images/image14.jpg;Description 14.
+Image 15;Content/Images/image15.jpg;Description 15.
+Image 16;Content/Images/image16.jpg;Description 16.
+Image 17;Content/Images/image17.jpg;Description 17.
+Image 18;Content/Images/image18.jpg;Description 18.
+Image 19;Content/Images/image19.jpg;Description 19.
+Image 20;Content/Images/image20.jpg;Description 20.
