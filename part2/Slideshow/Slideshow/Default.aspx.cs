@@ -62,6 +62,9 @@ public partial class _Default : Page
 
         if ((bool)Session["IsPlaying"])
         {
+
+            // Insert a debug break here
+            //System.Diagnostics.Debugger.Break();
             StartSlideshow();
         }
     }
