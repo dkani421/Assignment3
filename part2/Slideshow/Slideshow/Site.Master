@@ -11,7 +11,10 @@
     <form id="form1" runat="server">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#">Slideshow App</a>
+                <a class="navbar-brand" href="#">
+                    <img src="./Content/Images/logocs.png" alt="Computer Store Logo" class="logo-img">
+                    Slideshow App
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
