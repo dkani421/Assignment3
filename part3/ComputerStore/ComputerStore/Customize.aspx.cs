@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace ComputerStore
@@ -16,7 +17,7 @@ namespace ComputerStore
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _components = GetComputerComponents();
+            _components = GetHardcodedComputerComponents();
 
             if (!IsPostBack)
             {
@@ -60,9 +61,15 @@ namespace ComputerStore
             if (selectedComponent != null)
             {
                 _selectedComputer.SetComponent(selectedComponent);
+
+                // Update the component price label
+                ComponentPriceLabel.InnerText = selectedComponent.Price.ToString();
+
+                // Update the total price
                 UpdateTotalPrice();
             }
         }
+
 
         private void UpdateTotalPrice()
         {
@@ -70,20 +77,28 @@ namespace ComputerStore
             TotalPriceLabel.InnerText = totalPrice.ToString();
         }
 
-        protected List<ComputerComponent> GetComputerComponents()
+        protected List<ComputerComponent> GetHardcodedComputerComponents()
         {
-            // Simulated list of computer components with properties: Id, Name, Price
-            // Replace this with your actual data retrieval logic
-            return new List<ComputerComponent>
+            List<ComputerComponent> components = new List<ComputerComponent>
             {
                 new ComputerComponent { Id = 1, Name = "RAM", Price = 100 },
                 new ComputerComponent { Id = 2, Name = "HardDrive", Price = 150 },
                 new ComputerComponent { Id = 3, Name = "CPU", Price = 200 },
                 new ComputerComponent { Id = 4, Name = "Display", Price = 300 },
                 new ComputerComponent { Id = 5, Name = "OS", Price = 50 },
-                new ComputerComponent { Id = 6, Name = "SoundCard", Price = 30 }
-                // Add more components here
+                new ComputerComponent { Id = 6, Name = "SoundCard", Price = 30 },
+                new ComputerComponent { Id = 7, Name = "GraphicsCard", Price = 500 },
+                new ComputerComponent { Id = 8, Name = "SSD", Price = 120 },
+                new ComputerComponent { Id = 9, Name = "PowerSupply", Price = 100 },
+                new ComputerComponent { Id = 10, Name = "CoolingSystem", Price = 150 },
+                new ComputerComponent { Id = 11, Name = "Keyboard", Price = 120 },
+                new ComputerComponent { Id = 12, Name = "Mouse", Price = 80 },
+                new ComputerComponent { Id = 13, Name = "Headset", Price = 150 },
+                new ComputerComponent { Id = 14, Name = "Webcam", Price = 70 },
+                new ComputerComponent { Id = 15, Name = "MonitorStand", Price = 50 }
             };
+
+            return components;
         }
 
         protected Computer GetComputerById(int computerId)
@@ -100,6 +115,16 @@ namespace ComputerStore
             }
 
             return null; // No computer found with the specified ID
+        }
+        protected void AddToCartButton_Click(object sender, EventArgs e)
+        {
+            // Construct the URL for the new window
+            string url = "SelectedComputerDetails.aspx" +
+                         "?computerId=" + _selectedComputer.Id +
+                         "&totalPrice=" + _selectedComputer.GetTotalPrice();
+
+            // Open the new window using JavaScript
+            ScriptManager.RegisterStartupScript(this, GetType(), "NewWindow", "window.open('" + url + "', '_blank');", true);
         }
 
         protected List<Computer> GetComputerData()

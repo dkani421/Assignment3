@@ -18,15 +18,10 @@
                 <h4>Customize Components</h4>
                 <asp:DropDownList ID="ComponentDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">
                     <asp:ListItem Text="Select Component" Value="" />
-                    <asp:ListItem Text="RAM" Value="RAM" />
-                    <asp:ListItem Text="Hard Drive" Value="HardDrive" />
-                    <asp:ListItem Text="CPU" Value="CPU" />
-                    <asp:ListItem Text="Display" Value="Display" />
-                    <asp:ListItem Text="OS" Value="OS" />
-                    <asp:ListItem Text="Sound Card" Value="SoundCard" />
                 </asp:DropDownList>
                 <p class="mt-2" id="ComponentPriceLabel" runat="server"></p>
                 <p>Total Price: $<span id="TotalPriceLabel" runat="server"></span></p>
+                <asp:Button ID="AddToCartButton" runat="server" Text="Add to Cart" OnClick="AddToCartButton_Click" CssClass="btn btn-primary" />
             </div>
         </div>
     </div>
