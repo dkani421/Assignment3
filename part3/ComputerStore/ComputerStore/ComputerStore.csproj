@@ -104,6 +104,28 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="App_Data\ComputerData.txt" />
+    <Content Include="Content\Images\image1.jpg" />
+    <Content Include="Content\Images\image10.jpg" />
+    <Content Include="Content\Images\image11.jpg" />
+    <Content Include="Content\Images\image12.jpg" />
+    <Content Include="Content\Images\image13.jpg" />
+    <Content Include="Content\Images\image14.jpg" />
+    <Content Include="Content\Images\image15.jpg" />
+    <Content Include="Content\Images\image16.jpg" />
+    <Content Include="Content\Images\image17.jpg" />
+    <Content Include="Content\Images\image18.jpg" />
+    <Content Include="Content\Images\image19.jpg" />
+    <Content Include="Content\Images\image2.jpg" />
+    <Content Include="Content\Images\image20.jpg" />
+    <Content Include="Content\Images\image3.jpg" />
+    <Content Include="Content\Images\image4.jpg" />
+    <Content Include="Content\Images\image5.jpg" />
+    <Content Include="Content\Images\image6.jpg" />
+    <Content Include="Content\Images\image7.jpg" />
+    <Content Include="Content\Images\image8.jpg" />
+    <Content Include="Content\Images\image9.jpg" />
+    <Content Include="Customize.aspx" />
+    <Content Include="ProductListing.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -121,6 +143,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Images\logocs.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -196,6 +219,22 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ComputerComponent.cs" />
+    <Compile Include="Computer.cs" />
+    <Compile Include="Customize.aspx.cs">
+      <DependentUpon>Customize.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customize.aspx.designer.cs">
+      <DependentUpon>Customize.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProductListing.aspx.cs">
+      <DependentUpon>ProductListing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductListing.aspx.designer.cs">
+      <DependentUpon>ProductListing.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

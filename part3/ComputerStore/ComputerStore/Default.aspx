@@ -23,7 +23,7 @@
                     Have questions or need assistance? Feel free to reach out to our dedicated support team.
                 </p>
                 <p>
-                    <a class="btn btn-default" href="ContactUs.aspx">Get in touch &raquo;</a>
+                    <a class="btn btn-default" href="Contact.aspx">Get in touch &raquo;</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="customizationTitle">
