@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\part2",
+    "\\part2\\Slideshow",
+    "\\part2\\Slideshow\\Slideshow",
+    "\\part2\\Slideshow\\Slideshow\\App_Data"
   ],
-  "SelectedNode": "\\tma3.htm",
+  "SelectedNode": "\\part2\\Slideshow\\Slideshow\\App_Data\\PicturesData.txt",
   "PreviewInSolutionExplorer": false
 }
