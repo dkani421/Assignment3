@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="_Default" MasterPageFile="~/Site.Master" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h1>Welcome to Slideshow App</h1>
+    <h1>Slideshow App</h1>
     <div class="slideshow-container">
         <asp:Image ID="imgPicture" runat="server" CssClass="slide" />
         <div class="caption">
@@ -16,5 +16,5 @@
     </div>
     
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:Timer ID="timer" runat="server" Interval="3000" OnTick="timer_Tick" Enabled="false" />
+    <asp:Timer ID="timer" runat="server" Interval="1500" OnTick="timer_Tick" Enabled="false" />
 </asp:Content>
