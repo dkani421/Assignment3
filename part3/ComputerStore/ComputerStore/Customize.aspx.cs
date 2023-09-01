@@ -10,10 +10,6 @@ namespace ComputerStore
     {
         private List<ComputerComponent> _components; // List of computer components
         private Computer _selectedComputer;
-        protected Computer SelectedComputer
-        {
-            get { return _selectedComputer; }
-        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,6 +30,10 @@ namespace ComputerStore
                         SelectedComputerModel.Text = _selectedComputer.Model;
                         SelectedComputerDescription.Text = _selectedComputer.Description;
                         SelectedComputerPrice.Text = _selectedComputer.Price.ToString();
+
+                        // Initialize the total price to the computer's price
+                        int totalPrice = _selectedComputer.Price;
+                        TotalPriceLabel.InnerText = totalPrice.ToString();
 
                         // Bind the component dropdown
                         ComponentDropDown.DataSource = _components;
@@ -58,7 +58,7 @@ namespace ComputerStore
             string selectedComponentName = ComponentDropDown.SelectedValue;
             var selectedComponent = _components.FirstOrDefault(c => c.Name == selectedComponentName);
 
-            if (selectedComponent != null)
+            if (selectedComponent != null && _selectedComputer != null)
             {
                 _selectedComputer.SetComponent(selectedComponent);
 
@@ -118,14 +118,22 @@ namespace ComputerStore
         }
         protected void AddToCartButton_Click(object sender, EventArgs e)
         {
-            // Construct the URL for the new window
-            string url = "SelectedComputerDetails.aspx" +
-                         "?computerId=" + _selectedComputer.Id +
-                         "&totalPrice=" + _selectedComputer.GetTotalPrice();
+            if (_selectedComputer != null)
+            {
+                // Construct the URL for the new window
+                string url = "SelectedComputerDetails.aspx" +
+                             "?computerId=" + _selectedComputer.Id +
+                             "&totalPrice=" + _selectedComputer.GetTotalPrice();
 
-            // Open the new window using JavaScript
-            ScriptManager.RegisterStartupScript(this, GetType(), "NewWindow", "window.open('" + url + "', '_blank');", true);
+                // Open the new window using JavaScript
+                ScriptManager.RegisterStartupScript(this, GetType(), "NewWindow", "window.open('" + url + "', '_blank');", true);
+            }
+            else
+            {
+                // Handle the case where _selectedComputer is null (e.g., show an error message or redirect the user).
+            }
         }
+
 
         protected List<Computer> GetComputerData()
         {
