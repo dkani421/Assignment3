@@ -32,7 +32,7 @@ namespace ComputerStore
                         SelectedComputerPrice.Text = _selectedComputer.Price.ToString();
 
                         // Initialize the total price to the computer's price
-                        int totalPrice = _selectedComputer.Price;
+                        decimal totalPrice = _selectedComputer.Price;
                         TotalPriceLabel.InnerText = totalPrice.ToString();
 
                         // Bind the component dropdown
@@ -58,48 +58,103 @@ namespace ComputerStore
             string selectedComponentName = ComponentDropDown.SelectedValue;
             var selectedComponent = _components.FirstOrDefault(c => c.Name == selectedComponentName);
 
-            if (selectedComponent != null && _selectedComputer != null)
+            if (selectedComponent != null)
             {
-                _selectedComputer.SetComponent(selectedComponent);
+                // Populate the PricingOptionDropDown with pricing options for the selected component
+                PricingOptionDropDown.DataSource = selectedComponent.PriceOptions;
+                PricingOptionDropDown.DataTextField = "OptionName";
+                PricingOptionDropDown.DataValueField = "Price";
+                PricingOptionDropDown.DataBind();
 
-                // Update the component price label
-                ComponentPriceLabel.InnerText = selectedComponent.Price.ToString();
-
-                // Update the total price
-                UpdateTotalPrice();
+                // Select the first pricing option by default
+                PricingOptionDropDown.SelectedIndex = 0;
             }
         }
 
 
+
         private void UpdateTotalPrice()
         {
-            int totalPrice = _selectedComputer.GetTotalPrice();
+            decimal totalPrice = _selectedComputer.GetTotalPrice();
             TotalPriceLabel.InnerText = totalPrice.ToString();
         }
 
         protected List<ComputerComponent> GetHardcodedComputerComponents()
         {
             List<ComputerComponent> components = new List<ComputerComponent>
+        {
+            new ComputerComponent
             {
-                new ComputerComponent { Id = 1, Name = "RAM", Price = 100 },
-                new ComputerComponent { Id = 2, Name = "HardDrive", Price = 150 },
-                new ComputerComponent { Id = 3, Name = "CPU", Price = 200 },
-                new ComputerComponent { Id = 4, Name = "Display", Price = 300 },
-                new ComputerComponent { Id = 5, Name = "OS", Price = 50 },
-                new ComputerComponent { Id = 6, Name = "SoundCard", Price = 30 },
-                new ComputerComponent { Id = 7, Name = "GraphicsCard", Price = 500 },
-                new ComputerComponent { Id = 8, Name = "SSD", Price = 120 },
-                new ComputerComponent { Id = 9, Name = "PowerSupply", Price = 100 },
-                new ComputerComponent { Id = 10, Name = "CoolingSystem", Price = 150 },
-                new ComputerComponent { Id = 11, Name = "Keyboard", Price = 120 },
-                new ComputerComponent { Id = 12, Name = "Mouse", Price = 80 },
-                new ComputerComponent { Id = 13, Name = "Headset", Price = 150 },
-                new ComputerComponent { Id = 14, Name = "Webcam", Price = 70 },
-                new ComputerComponent { Id = 15, Name = "MonitorStand", Price = 50 }
-            };
+                Id = 1,
+                Name = "RAM",
+                PriceOptions = new List<PriceOption>
+                {
+                    new PriceOption { OptionName = "Basic", Price = 100 },
+                    new PriceOption { OptionName = "Standard", Price = 150 },
+                    new PriceOption { OptionName = "Advanced", Price = 200 }
+                }
+            },
+            new ComputerComponent
+            {
+                Id = 2,
+                Name = "Hard Drive",
+                PriceOptions = new List<PriceOption>
+                {
+                    new PriceOption { OptionName = "Basic", Price = 120 },
+                    new PriceOption { OptionName = "Standard", Price = 180 },
+                    new PriceOption { OptionName = "Advanced", Price = 250 }
+                }
+            },
+            new ComputerComponent
+            {
+                Id = 3,
+                Name = "CPU",
+                PriceOptions = new List<PriceOption>
+                {
+                    new PriceOption { OptionName = "Basic", Price = 150 },
+                    new PriceOption { OptionName = "Standard", Price = 250 },
+                    new PriceOption { OptionName = "Advanced", Price = 350 }
+                }
+            },
+            new ComputerComponent
+            {
+                Id = 4,
+                Name = "Display",
+                PriceOptions = new List<PriceOption>
+                {
+                    new PriceOption { OptionName = "Basic", Price = 200 },
+                    new PriceOption { OptionName = "Standard", Price = 350 },
+                    new PriceOption { OptionName = "Advanced", Price = 500 }
+                }
+            },
+            new ComputerComponent
+            {
+                Id = 5,
+                Name = "OS",
+                PriceOptions = new List<PriceOption>
+                {
+                    new PriceOption { OptionName = "Basic", Price = 50 },
+                    new PriceOption { OptionName = "Standard", Price = 80 },
+                    new PriceOption { OptionName = "Advanced", Price = 120 }
+                }
+            },
+            new ComputerComponent
+            {
+                Id = 6,
+                Name = "Sound Card",
+                PriceOptions = new List<PriceOption>
+                {
+                    new PriceOption { OptionName = "Basic", Price = 30 },
+                    new PriceOption { OptionName = "Standard", Price = 50 },
+                    new PriceOption { OptionName = "Advanced", Price = 80 }
+                }
+            },
+        };
 
             return components;
         }
+
+
 
         protected Computer GetComputerById(int computerId)
         {
@@ -130,9 +185,12 @@ namespace ComputerStore
             }
             else
             {
-                // Handle the case where _selectedComputer is null (e.g., show an error message or redirect the user).
+                // Display an alert to the user using JavaScript
+                string script = "alert('_selectedComputer is null here and it shouldnt be solve the pass to referance.');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "ErrorAlert", script, true);
             }
         }
+
 
 
         protected List<Computer> GetComputerData()

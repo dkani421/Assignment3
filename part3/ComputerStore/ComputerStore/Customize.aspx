@@ -19,6 +19,8 @@
                 <asp:DropDownList ID="ComponentDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">
                     <asp:ListItem Text="Select Component" Value="" />
                 </asp:DropDownList>
+                <asp:DropDownList ID="PricingOptionDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">
+                </asp:DropDownList>
                 <p class="mt-2" id="ComponentPriceLabel" runat="server"></p>
                 <p>Total Price: $<span id="TotalPriceLabel" runat="server"></span></p>
                 <asp:Button ID="AddToCartButton" runat="server" Text="Add to Cart" OnClick="AddToCartButton_Click" CssClass="btn btn-primary" />

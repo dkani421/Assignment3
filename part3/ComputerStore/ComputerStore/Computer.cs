@@ -1,13 +1,12 @@
 ﻿using ComputerStore;
 using System.Collections.Generic;
-using System;
 
 public class Computer
 {
     public int Id { get; set; }
     public string Model { get; set; }
     public string Description { get; set; }
-    public int Price { get; set; }
+    public decimal Price { get; set; } // Change the data type to decimal
     public string ImagePath { get; set; }
 
     // Updated properties for customization
@@ -20,13 +19,13 @@ public class Computer
         Components.Add(component);
     }
 
-    public int GetTotalPrice()
+    public decimal GetTotalPrice() // Change the return type to decimal
     {
         // Calculate the total price based on selected components
-        int totalPrice = Price;
+        decimal totalPrice = Price;
         foreach (var component in Components)
         {
-            totalPrice += (int)Math.Round(component.Price);
+            //totalPrice += component.Price;
         }
         return totalPrice;
     }

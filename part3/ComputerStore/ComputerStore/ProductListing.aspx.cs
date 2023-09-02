@@ -6,7 +6,6 @@ namespace ComputerStore
 {
     public partial class ProductListing : System.Web.UI.Page
     {
-        private List<ComputerComponent> _components; // List of computer components
 
         protected void Page_Load(object sender, EventArgs e)
         {
