@@ -22,9 +22,6 @@ namespace ComputerStore
             // Simulated data source, replace this with your actual data retrieval logic
             ComputerRepeater.DataSource = GetComputerData();
             ComputerRepeater.DataBind();
-
-            // Initialize the list of computer components
-            _components = GetComputerComponents();
         }
 
         // Inside the GetComputerData method
@@ -76,22 +73,6 @@ namespace ComputerStore
 
             // Return a default price if no valid price was found
             return 0; // You can choose an appropriate default value
-        }
-
-        protected List<ComputerComponent> GetComputerComponents()
-        {
-            // Simulated list of computer components with properties: Id, Name, Price
-            // Replace this with your actual data retrieval logic
-            return new List<ComputerComponent>
-            {
-                new ComputerComponent { Id = 1, Name = "RAM", Price = 100 },
-                new ComputerComponent { Id = 2, Name = "Hard Drive", Price = 150 },
-                new ComputerComponent { Id = 3, Name = "CPU", Price = 200 },
-                new ComputerComponent { Id = 4, Name = "Display", Price = 300 },
-                new ComputerComponent { Id = 5, Name = "OS", Price = 50 },
-                new ComputerComponent { Id = 6, Name = "Sound Card", Price = 30 }
-                // Add more components here
-            };
         }
     }
 }
