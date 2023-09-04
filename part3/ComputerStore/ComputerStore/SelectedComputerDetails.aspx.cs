@@ -10,19 +10,54 @@ namespace ComputerStore
             if (!IsPostBack)
             {
                 int computerId;
-                int totalPrice;
+                decimal totalPrice;
+                string ram;
+                string hardDrive;
+                string cpu;
+                string display;
+                string os;
+                string soundCard;
+                string totalPriceLabel; // Add a variable to store the TotalPriceLabel value
 
-                // Check if the computerId and totalPrice query string parameters are present and can be parsed
-                if (int.TryParse(Request.QueryString["computerId"], out computerId) && int.TryParse(Request.QueryString["totalPrice"], out totalPrice))
+                // Check if the computerId and other query string parameters are present and can be parsed
+                if (int.TryParse(Request.QueryString["computerId"], out computerId) &&
+                    decimal.TryParse(Request.QueryString["totalPrice"], out totalPrice) &&
+                    !string.IsNullOrEmpty(Request.QueryString["Ram"]) &&
+                    !string.IsNullOrEmpty(Request.QueryString["HardDrive"]) &&
+                    !string.IsNullOrEmpty(Request.QueryString["CPU"]) &&
+                    !string.IsNullOrEmpty(Request.QueryString["Display"]) &&
+                    !string.IsNullOrEmpty(Request.QueryString["OS"]) &&
+                    !string.IsNullOrEmpty(Request.QueryString["SoundCard"]) &&
+                    !string.IsNullOrEmpty(Request.QueryString["TotalPriceLabel"])) // Retrieve TotalPriceLabel value
                 {
                     Computer selectedComputer = GetComputerById(computerId);
+                    ram = Request.QueryString["Ram"];
+                    hardDrive = Request.QueryString["HardDrive"];
+                    cpu = Request.QueryString["CPU"];
+                    display = Request.QueryString["Display"];
+                    os = Request.QueryString["OS"];
+                    soundCard = Request.QueryString["SoundCard"];
+                    totalPriceLabel = Request.QueryString["TotalPriceLabel"]; // Retrieve TotalPriceLabel value
 
                     if (selectedComputer != null)
                     {
                         SelectedComputerImage.ImageUrl = selectedComputer.ImagePath;
                         SelectedComputerModel.Text = selectedComputer.Model;
                         SelectedComputerDescription.Text = selectedComputer.Description;
+
+                        // Display the total price
                         SelectedComputerPrice.Text = totalPrice.ToString();
+
+                        // Display the customization details
+                        RamSelectionLabel.Text = ram;
+                        HardDriveSelectionLabel.Text = hardDrive;
+                        CpuSelectionLabel.Text = cpu;
+                        DisplaySelectionLabel.Text = display;
+                        OsSelectionLabel.Text = os;
+                        SoundCardSelectionLabel.Text = soundCard;
+
+                        // Display the TotalPriceLabel value
+                        TotalPriceLabel.Text = totalPriceLabel;
                     }
                 }
                 else

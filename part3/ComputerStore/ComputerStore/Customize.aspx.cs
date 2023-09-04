@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace ComputerStore
 {
@@ -52,6 +52,37 @@ namespace ComputerStore
             }
         }
 
+        protected void ComponentDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Handle the selected index change for each dropdown
+            UpdateTotalPrice();
+        }
+
+        private void UpdateTotalPrice()
+        {
+            // Calculate the total price based on selected dropdown values
+            decimal totalPrice = _selectedComputer.Price;
+
+            totalPrice += GetDropdownValue(RamDropDown);
+            totalPrice += GetDropdownValue(HardDriveDropDown);
+            totalPrice += GetDropdownValue(CpuDropDown);
+            totalPrice += GetDropdownValue(DisplayDropDown);
+            totalPrice += GetDropdownValue(OsDropDown);
+            totalPrice += GetDropdownValue(SoundCardDropDown);
+
+            TotalPriceLabel.InnerText = totalPrice.ToString();
+        }
+
+        private decimal GetDropdownValue(DropDownList dropdown)
+        {
+            decimal selectedValue = 0;
+            if (dropdown.SelectedIndex > 0)
+            {
+                selectedValue = decimal.Parse(dropdown.SelectedValue);
+            }
+            return selectedValue;
+        }
+
         protected Computer GetComputerById(int computerId)
         {
             List<Computer> computers = GetComputerData();
@@ -66,7 +97,7 @@ namespace ComputerStore
             }
 
             return null; // No computer found with the specified ID
-        } 
+        }
 
         protected void AddToCartButton_Click(object sender, EventArgs e)
         {
@@ -75,7 +106,15 @@ namespace ComputerStore
                 // Construct the URL for the new window
                 string url = "SelectedComputerDetails.aspx" +
                              "?computerId=" + _selectedComputer.Id +
-                             "&totalPrice=" + _selectedComputer.GetTotalPrice();
+                             "&totalPrice=" + _selectedComputer.GetTotalPrice() +
+                             "&TotalPriceLabel=" + TotalPriceLabel.InnerText;
+
+                url += "&Ram=" + RamDropDown.SelectedItem.Text;
+                url += "&HardDrive=" + HardDriveDropDown.SelectedItem.Text;
+                url += "&CPU=" + CpuDropDown.SelectedItem.Text;
+                url += "&Display=" + DisplayDropDown.SelectedItem.Text;
+                url += "&OS=" + OsDropDown.SelectedItem.Text;
+                url += "&SoundCard=" + SoundCardDropDown.SelectedItem.Text;
 
                 // Redirect to the cart page
                 Response.Redirect(url);

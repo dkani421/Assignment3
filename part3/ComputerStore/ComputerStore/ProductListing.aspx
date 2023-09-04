@@ -12,7 +12,7 @@
                             <div class="card-body">
                                 <h5 class="card-title"><%# Eval("Model") %></h5>
                                 <p class="card-text"><%# Eval("Description") %></p>
-                                <p class="card-text">Price: $<span id="price_<%# Container.ItemIndex %>"><%# Eval("Price") %></span></p>
+                                <p class="card-text"><strong>Price: $<span id="price_<%# Container.ItemIndex %>"><%# Eval("Price") %></span></strong></p>
                                 <a href='<%# "Customize.aspx?computerId=" + Eval("Id") %>' class="btn btn-primary">Customize</a>
                             </div>
                         </div>
