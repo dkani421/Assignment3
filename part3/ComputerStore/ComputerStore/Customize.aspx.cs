@@ -204,15 +204,9 @@ namespace ComputerStore
             {
                 if (computer.Id == computerId)
                 {
-                    // Output a message to check if the computer is found
-                    Response.Write("Computer found: " + computer.Model);
-
                     return computer; // Found the matching computer
                 }
             }
-
-            // Output a message to check if the computer is not found
-            Response.Write("Computer not found for ID: " + computerId);
 
             return null; // No computer found with the specified ID
         }
@@ -226,14 +220,8 @@ namespace ComputerStore
                              "?computerId=" + _selectedComputer.Id +
                              "&totalPrice=" + _selectedComputer.GetTotalPrice();
 
-                // Open the new window using JavaScript
-                ScriptManager.RegisterStartupScript(this, GetType(), "NewWindow", "window.open('" + url + "', '_blank');", true);
-            }
-            else
-            {
-                // Display an alert to the user using JavaScript
-                string script = "alert('_selectedComputer is null here and it shouldnt be solve the pass to referance.');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "ErrorAlert", script, true);
+                // Redirect to the cart page
+                Response.Redirect(url);
             }
         }
 
