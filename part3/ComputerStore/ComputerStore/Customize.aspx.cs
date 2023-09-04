@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ComputerStore
 {
-    public partial class Customize : System.Web.UI.Page
+    public partial class Customize : Page
     {
         private List<ComputerComponent> _components; // List of computer components
         private Computer _selectedComputer;
@@ -40,6 +39,9 @@ namespace ComputerStore
                         ComponentDropDown.DataTextField = "Name";
                         ComponentDropDown.DataValueField = "Name";
                         ComponentDropDown.DataBind();
+
+                        // Store the selected computer in ViewState
+                        ViewState["SelectedComputer"] = _selectedComputer;
                     }
                     else
                     {
@@ -51,10 +53,17 @@ namespace ComputerStore
                     // Handle case when computerId is not valid
                 }
             }
+            else
+            {
+                // Restore the selected computer from ViewState
+                _selectedComputer = ViewState["SelectedComputer"] as Computer;
+            }
         }
+
 
         protected void ComponentDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Only update the PricingOptionDropDown when a component is selected
             string selectedComponentName = ComponentDropDown.SelectedValue;
             var selectedComponent = _components.FirstOrDefault(c => c.Name == selectedComponentName);
 
@@ -71,11 +80,43 @@ namespace ComputerStore
             }
         }
 
+        protected void PricingOptionDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Update the selected pricing option for the component
+            string selectedComponentName = ComponentDropDown.SelectedValue;
+            var selectedComponent = _selectedComputer.Components.FirstOrDefault(c => c.Name == selectedComponentName);
 
+            if (selectedComponent != null)
+            {
+                string selectedOptionName = PricingOptionDropDown.SelectedValue;
+                var selectedOption = selectedComponent.PriceOptions.FirstOrDefault(option => option.OptionName == selectedOptionName);
+
+                if (selectedOption != null)
+                {
+                    // Mark the selected option as "Selected"
+                    selectedOption.Selected = true;
+                }
+            }
+
+            // Update the total price
+            UpdateTotalPrice();
+        }
 
         private void UpdateTotalPrice()
         {
-            decimal totalPrice = _selectedComputer.GetTotalPrice();
+            decimal totalPrice = _selectedComputer.Price;
+
+            // Calculate the total price based on selected components and options
+            foreach (var component in _selectedComputer.Components)
+            {
+                var selectedOption = component.PriceOptions.FirstOrDefault(option => option.Selected);
+                if (selectedOption != null)
+                {
+                    totalPrice += selectedOption.Price;
+                }
+            }
+
+            // Set the total price label
             TotalPriceLabel.InnerText = totalPrice.ToString();
         }
 
@@ -154,8 +195,6 @@ namespace ComputerStore
             return components;
         }
 
-
-
         protected Computer GetComputerById(int computerId)
         {
             List<Computer> computers = GetComputerData();
@@ -165,12 +204,19 @@ namespace ComputerStore
             {
                 if (computer.Id == computerId)
                 {
+                    // Output a message to check if the computer is found
+                    Response.Write("Computer found: " + computer.Model);
+
                     return computer; // Found the matching computer
                 }
             }
 
+            // Output a message to check if the computer is not found
+            Response.Write("Computer not found for ID: " + computerId);
+
             return null; // No computer found with the specified ID
         }
+
         protected void AddToCartButton_Click(object sender, EventArgs e)
         {
             if (_selectedComputer != null)
@@ -190,8 +236,6 @@ namespace ComputerStore
                 ScriptManager.RegisterStartupScript(this, GetType(), "ErrorAlert", script, true);
             }
         }
-
-
 
         protected List<Computer> GetComputerData()
         {

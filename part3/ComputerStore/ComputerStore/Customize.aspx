@@ -19,7 +19,7 @@
                 <asp:DropDownList ID="ComponentDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">
                     <asp:ListItem Text="Select Component" Value="" />
                 </asp:DropDownList>
-                <asp:DropDownList ID="PricingOptionDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">
+                <asp:DropDownList ID="PricingOptionDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PricingOptionDropDown_SelectedIndexChanged">
                 </asp:DropDownList>
                 <p class="mt-2" id="ComponentPriceLabel" runat="server"></p>
                 <p>Total Price: $<span id="TotalPriceLabel" runat="server"></span></p>

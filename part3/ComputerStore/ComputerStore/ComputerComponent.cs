@@ -5,6 +5,7 @@ using System.Web;
 
 namespace ComputerStore
 {
+    [Serializable]
     public class ComputerComponent
     {
         public int Id { get; set; }
@@ -15,5 +16,6 @@ namespace ComputerStore
     {
         public string OptionName { get; set; }
         public decimal Price { get; set; }
+        public bool Selected { get; set; }
     }
 }
