@@ -221,7 +221,6 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="ComputerComponent.cs" />
     <Compile Include="Computer.cs" />
     <Compile Include="SelectedComputerDetails.aspx.cs">
       <DependentUpon>SelectedComputerDetails.aspx</DependentUpon>

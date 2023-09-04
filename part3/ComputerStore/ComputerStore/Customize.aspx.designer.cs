@@ -51,22 +51,58 @@ namespace ComputerStore
         protected global::System.Web.UI.WebControls.Label SelectedComputerPrice;
 
         /// <summary>
-        /// ComponentDropDown control.
+        /// RamDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ComponentDropDown;
+        protected global::System.Web.UI.WebControls.DropDownList RamDropDown;
 
         /// <summary>
-        /// PricingOptionDropDown control.
+        /// HardDriveDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList PricingOptionDropDown;
+        protected global::System.Web.UI.WebControls.DropDownList HardDriveDropDown;
+
+        /// <summary>
+        /// CpuDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CpuDropDown;
+
+        /// <summary>
+        /// DisplayDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DisplayDropDown;
+
+        /// <summary>
+        /// OsDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList OsDropDown;
+
+        /// <summary>
+        /// SoundCardDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList SoundCardDropDown;
 
         /// <summary>
         /// ComponentPriceLabel control.
