@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container mt-4">
-        <h2>Customized Cart</h2>
+        <h1>Customized Cart</h1>
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
@@ -15,7 +15,7 @@
                 </div>
             </div>
              <div class="col-md-8">
-                <h4>Customization Details</h4>
+                <h3>Customization Details</h3>
                 <!-- Display customization details for RAM -->
                 <p>RAM: <asp:Label ID="RamSelectionLabel" runat="server" /></p>
                 
@@ -38,8 +38,8 @@
                 <p><strong>Total Price: $<asp:Label ID="TotalPriceLabel" runat="server" /></strong></p>
             </div>
             <div class="col-md-4">
-                <h4>Customer Details</h4>
-                <h6>Shipping Address:</h6>
+                <h3>Customer Details</h3>
+                <h5>Shipping Address:</h5>
                 <div class="form-group">
                     <label for="FullName">Full Name</label>
                     <asp:TextBox ID="FullName" runat="server" CssClass="form-control" />
@@ -62,8 +62,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-            <h4>Payment Information</h4>
-            <h6>Card Details:</h6>
+            <h3>Payment Information</h3>
+            <h5>Card Details:</h5>
             <div class="form-group">
                 <label for="CardNumber">Card Number</label>
                 <asp:TextBox ID="CardNumber" runat="server" CssClass="form-control" />

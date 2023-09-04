@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container mt-4">
-        <h2>Customize Computer</h2>
+        <h1>Customize Computer</h1>
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <h4>Customize Components</h4>
+                <h3>Customize Components</h3>
                 <!-- Dropdown for RAM -->
                 <asp:DropDownList ID="RamDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">
                     <asp:ListItem Text="No RAM" Value="0" />

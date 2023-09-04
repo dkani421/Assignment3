@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container mt-4">
-        <h2>Product Listing</h2>
+        <h1>Product Listing</h1>
         <div class="row">
             <asp:Repeater ID="ComputerRepeater" runat="server">
                 <ItemTemplate>
