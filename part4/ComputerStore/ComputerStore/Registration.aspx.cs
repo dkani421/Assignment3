@@ -3,20 +3,22 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
-using BCrypt.Net; // Include the BCrypt.NET namespace
+using BCrypt.Net;
 
-namespace ComputerStore 
+namespace ComputerStore
 {
     public partial class Registration : System.Web.UI.Page
     {
         protected void btnRegister_Click(object sender, EventArgs e)
         {
             // Get user inputs
+            string firstName = txtFirstName.Text;
+            string lastName = txtLastName.Text;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
             // Validate inputs (you can add more validation as needed)
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 lblMessage.Text = "Please fill in all fields.";
                 lblMessage.Visible = true;
@@ -35,9 +37,11 @@ namespace ComputerStore
                     connection.Open();
 
                     // Insert the new customer's information into the Customers table
-                    string insertQuery = "INSERT INTO Customers (Username, Password) VALUES (@Username, @Password)";
+                    string insertQuery = "INSERT INTO Customers (FirstName, LastName, Username, Password) VALUES (@FirstName, @LastName, @Username, @Password)";
                     using (SqlCommand command = new SqlCommand(insertQuery, connection))
                     {
+                        command.Parameters.AddWithValue("@FirstName", firstName);
+                        command.Parameters.AddWithValue("@LastName", lastName);
                         command.Parameters.AddWithValue("@Username", username);
                         command.Parameters.AddWithValue("@Password", hashedPassword);
 
@@ -62,7 +66,7 @@ namespace ComputerStore
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 // Handle any exceptions (e.g., database connection error)
                 lblMessage.Text = "An error occurred. Please try again later.";
