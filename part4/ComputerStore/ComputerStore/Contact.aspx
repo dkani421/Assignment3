@@ -16,7 +16,6 @@
                 <strong>Marketing:</strong> <a href="mailto:dkani421@mtroyal.ca">dkani421@mtroyal.ca</a>
             </address>
         </div>
-        <!-- Feedback Form -->
         <div class="col-md-4">
             <h2>Customer Feedback</h2>
                 <form action="SubmitFeedback.aspx" method="post">

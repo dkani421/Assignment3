@@ -15,7 +15,6 @@ namespace ComputerStore
             }
         }
 
-        // Inside the BindComputerData method
         protected void BindComputerData()
         {
             // Simulated data source, replace this with your actual data retrieval logic
@@ -23,7 +22,6 @@ namespace ComputerStore
             ComputerRepeater.DataBind();
         }
 
-        // Inside the GetComputerData method
         protected List<Computer> GetComputerData()
         {
             List<Computer> computers = new List<Computer>();
@@ -61,7 +59,6 @@ namespace ComputerStore
             return computers;
         }
 
-        // Inside the ExtractPriceFromDescription method
         private int ExtractPriceFromDescription(string priceStr)
         {
             // Convert the price string to an integer
@@ -71,7 +68,7 @@ namespace ComputerStore
             }
 
             // Return a default price if no valid price was found
-            return 0; // You can choose an appropriate default value
+            return 0; 
         }
     }
 }

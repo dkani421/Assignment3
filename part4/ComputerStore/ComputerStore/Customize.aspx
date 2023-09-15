@@ -23,7 +23,7 @@
                     <asp:ListItem Text="Standard - $150" Value="150" />
                     <asp:ListItem Text="Advanced - $200" Value="200" />
                 </asp:DropDownList>
-                <br /> <!-- Add a line break after each component -->
+                <br /> 
 
                 <!-- Dropdown for Hard Drive -->
                 <asp:DropDownList ID="HardDriveDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ComponentDropDown_SelectedIndexChanged">

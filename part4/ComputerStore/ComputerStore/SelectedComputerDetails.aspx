@@ -16,25 +16,12 @@
             </div>
              <div class="col-md-8">
                 <h3>Customization Details</h3>
-                <!-- Display customization details for RAM -->
                 <p>RAM: <asp:Label ID="RamSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for Hard Drive -->
                 <p>Hard Drive: <asp:Label ID="HardDriveSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for CPU -->
                 <p>CPU: <asp:Label ID="CpuSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for Display -->
                 <p>Display: <asp:Label ID="DisplaySelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for OS -->
                 <p>OS: <asp:Label ID="OsSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for Sound Card -->
                 <p>Sound Card: <asp:Label ID="SoundCardSelectionLabel" runat="server" /></p>
-
-                  <!-- Display total price -->
                 <p><strong>Total Price: $<asp:Label ID="TotalPriceLabel" runat="server" /></strong></p>
             </div>
             <div class="col-md-4">

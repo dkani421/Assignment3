@@ -1,0 +1,56 @@
+﻿-- Inserting the hardcoded data into our db developed on phpMyAdmin
+
+INSERT INTO Computers (ComputerID, ModelName, Price, Description, ImageURL)
+VALUES
+	(1, 'Gaming Beast 5000', 1899, 'High-performance gaming PC with RGB lighting and liquid cooling.', 'Content/Images/image1.jpg'),
+	(2, 'UltraBook Pro X', 1299, 'Sleek and powerful ultrabook for professionals.', 'Content/Images/image2.jpg'),
+	(3, 'Home Entertainment Center', 899, 'Media center PC for streaming and multimedia tasks.', 'Content/Images/image3.jpg'),
+	(4, 'Designer''s DreamStation', 2199, 'High-spec workstation for creative professionals.', 'Content/Images/image4.jpg'),
+	(5, 'Student Special 2023', 599, 'Budget-friendly laptop for students and everyday tasks.', 'Content/Images/image5.jpg'),
+	(6, 'Home Office Master', 999, 'Productive desktop setup with dual monitors and ergonomic accessories.', 'Content/Images/image6.jpg'),
+	(7, 'All-in-One Touch 27', 1199, '27-inch all-in-one PC with touchscreen display for versatile computing.', 'Content/Images/image7.jpg'),
+	(8, 'Mini PC Powerhouse', 799, 'Compact form factor PC with powerful components for compact spaces.', 'Content/Images/image8.jpg'),
+	(9, 'Custom Enthusiast Build', 1599, 'Customizable PC build for tech enthusiasts and overclockers.', 'Content/Images/image9.jpg'),
+	(10, 'Business Productivity Hub', 899, 'Efficient desktop setup for business tasks and multitasking.', 'Content/Images/image10.jpg'),
+	(11, 'VR-Ready Gaming Rig', 1699, 'Built for virtual reality gaming with high-end graphics.', 'Content/Images/image11.jpg'),
+	(12, 'Convertible 2-in-1', 799, 'Versatile laptop-tablet hybrid for on-the-go productivity.', 'Content/Images/image12.jpg'),
+	(13, 'Creative Studio Laptop', 1399, 'Portable laptop optimized for graphic design and content creation.', 'Content/Images/image13.jpg'),
+	(14, 'Everyday Performance Tower', 499, 'Affordable desktop PC for daily computing tasks.', 'Content/Images/image14.jpg'),
+	(15, 'Streaming and Recording Setup', 999, 'Complete setup for content creators, including microphone and camera.', 'Content/Images/image15.jpg'),
+	(16, 'Business Workhorse Laptop', 1099, 'Durable laptop with extended battery life for business professionals.', 'Content/Images/image16.jpg'),
+	(17, 'Gaming Laptop Elite', 1799, 'High-performance gaming laptop with premium build and features.', 'Content/Images/image17.jpg'),
+	(18, 'Portable Gaming Console', 349, 'Compact gaming console for playing on the go.', 'Content/Images/image18.jpg'),
+	(19, 'Digital Artist''s Canvas', 299, 'Graphics tablet and stylus bundle for digital artists.', 'Content/Images/image19.jpg'),
+	(20, 'Home Server Solution', 499, 'Network-attached storage (NAS) for centralized file storage and backup.', 'Content/Images/image20.jpg');
+
+INSERT INTO Components (ComponentID, ComponentName, Price)
+VALUES
+	(1, 'RAM', 100),
+	(2, 'HardDrive', 150),
+	(3, 'CPU', 200),
+	(4, 'Display', 300),
+	(5, 'OS', 50),
+	(6, 'SoundCard', 30),
+	(7, 'GraphicsCard', 500),
+	(8, 'SSD', 120),
+	(9, 'PowerSupply', 100),
+	(10, 'CoolingSystem', 150),
+	(11, 'Keyboard', 120),
+	(12, 'Mouse', 80),
+	(13, 'Headset', 150),
+	(14, 'Webcam', 70),
+	(15, 'MonitorStand', 50);
+
+-- Inserting sample data into the other tables
+
+INSERT INTO Customers (FirstName, LastName, Email, Username, Password)
+VALUES 
+	('John', 'Doe', 'john@example.com', 'john_doe', 'hashed_and_salted_password');
+
+INSERT INTO OrderDetails (OrderID, ComputerID, ComponentID, ComponentPrice)
+VALUES
+	(1, 1, 2, 150); 
+
+INSERT INTO Orders (CustomerID, OrderDate, TotalPrice)
+VALUES 
+	(1, '2023-09-07', 500.00);

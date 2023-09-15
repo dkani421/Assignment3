@@ -154,7 +154,6 @@ namespace ComputerStore
             catch 
             {
                 // Handle database connection or query error
-                // Log the exception or perform appropriate error handling
             }
 
             return usernameExists;
@@ -162,8 +161,7 @@ namespace ComputerStore
 
         private string GeneratePasswordResetToken(string username)
         {
-            // Generate a unique password reset token for the user (you can use a library for this)
-            // For example, you can use a GUID (Globally Unique Identifier)
+            // Generate a unique password reset token for the user use a GUID (Globally Unique Identifier)
             string resetToken = Guid.NewGuid().ToString();
             return resetToken;
         }

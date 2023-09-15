@@ -63,7 +63,6 @@ namespace ComputerStore
                 else
                 {
                     // Handle the case where the parameters are missing or cannot be parsed
-                    // You can display an error message or redirect to an error page.
                 }
             }
         }

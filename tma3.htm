@@ -18,13 +18,13 @@
       <p>Date Began Working: August 18 2023</p>
       <p>Date Completed: September 20 2023</p>
       <h2>Time Spent</h2>
-      <p>Estimated Hours Spent on the Assignment: 40</p>
+      <p>Estimated Hours Spent on the Assignment: 55</p>
       <hr>
       <h1>Assignment Documentation</h1>
-      <h2><a href="./part1/">Project 3: Part 1</a></h2>
+      <h2><a href="http://68.147.61.110/CookieTracker/">Project 3: Part 1</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
-         Part 1 of this project involved creating a web application using ASP.NET in C# that utilizes a persistent cookie to track the number of times a client computer has visited the page. The application is also required to display the IP address of the client computer and the time zone of the client's location.
+         Part 1 of this project involved creating a web application using ASP.NET in C# that utilizes a persistent cookie to track the number of times a client computer has visited the page. The application is also designed to display the IP address of the client computer and the time zone of the client's location.
       </p>
       <h3>Implementation Documentation</h3>
       <p>
@@ -46,14 +46,14 @@
          <li>The web application will also display your client computer's IP address and the time zone of your location.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="./part1/">Part 1</a></p>
+      <p>Site link: <a href="http://68.147.61.110/CookieTracker/">Part 1</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>
-      <h2><a href="./part2/">Project 3: Part 2</a></h2>
+      <h2><a href="http://68.147.61.110/Slideshow/">Project 3: Part 2</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
-         Part 2 of this project involved developing a web application using ASP.NET in C# that creates and runs a slideshow of a list of pictures.
+          Part 2 of this project involved developing a slideshow web application using ASP.NET in C#.
       </p>
       <ul>
          <li>Picture Information Storage: Information about the pictures is stored in a text file. Each picture's details will include its name and a description to be used as a caption.</li>
@@ -83,11 +83,11 @@
          <li>Utilize the controls provided to initiate and halt the slideshow, switch between random and sequential modes, and navigate manually through the images.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="./part2/">Part 2</a></p>
+      <p>Site link: <a href="http://68.147.61.110/Slideshow/">Part 2</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>
-      <h2><a href="./part3/">Project 3: Part 3</a></h2>
+      <h2><a href="http://68.147.61.110/HardcodeComputerStore/">Project 3: Part 3</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
          Part 3 of this project marks the development of an online computer store where customers can customize computers and place orders. The application is designed using ASP.NET in C# as the server-side language.
@@ -130,11 +130,11 @@
          <li>Visit the contact page and leave a feedback message regarding your experiance using the system.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="./part3/">Part 3</a></p>
+      <p>Site link: <a href="http://68.147.61.110/HardcodeComputerStore/">Part 3</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>
-      <h2><a href="./part4/">Project 3: Part 4</a></h2>
+      <h2><a href="http://68.147.61.110/ComputerStore/">Project 3: Part 4</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
          Part 4 of this project extends the work accomplished in Part 3, focusing on the completion of a fully functional online computer store.
@@ -162,6 +162,69 @@
          <li>Order Summary Display/Update: Designed and re-programed the display of the order summary, featuring selected components and pricing.</li>
          <li>Components/Computers Re-implement: Re-implemented components/computers elements so they can be stored on db and are not hardcoded.</li>
       </ul>
+      <h3>SQL Database Initialization</h3>
+    <p>Below are the SQL scripts used to initialize the database. The tables were created using a DBMS:</p>
+    <pre>
+        <code>
+            <!-- Inserting data into Computers table -->
+            INSERT INTO Computers (ComputerID, ModelName, Price, Description, ImageURL)
+            VALUES
+               (1, 'Gaming Beast 5000', 1899, 'High-performance gaming PC with RGB lighting and liquid cooling.', 'Content/Images/image1.jpg'),
+               (2, 'UltraBook Pro X', 1299, 'Sleek and powerful ultrabook for professionals.', 'Content/Images/image2.jpg'),
+               (3, 'Home Entertainment Center', 899, 'Media center PC for streaming and multimedia tasks.', 'Content/Images/image3.jpg'),
+               (4, 'Designer''s DreamStation', 2199, 'High-spec workstation for creative professionals.', 'Content/Images/image4.jpg'),
+               (5, 'Student Special 2023', 599, 'Budget-friendly laptop for students and everyday tasks.', 'Content/Images/image5.jpg'),
+               (6, 'Home Office Master', 999, 'Productive desktop setup with dual monitors and ergonomic accessories.', 'Content/Images/image6.jpg'),
+               (7, 'All-in-One Touch 27', 1199, '27-inch all-in-one PC with touchscreen display for versatile computing.', 'Content/Images/image7.jpg'),
+               (8, 'Mini PC Powerhouse', 799, 'Compact form factor PC with powerful components for compact spaces.', 'Content/Images/image8.jpg'),
+               (9, 'Custom Enthusiast Build', 1599, 'Customizable PC build for tech enthusiasts and overclockers.', 'Content/Images/image9.jpg'),
+               (10, 'Business Productivity Hub', 899, 'Efficient desktop setup for business tasks and multitasking.', 'Content/Images/image10.jpg'),
+               (11, 'VR-Ready Gaming Rig', 1699, 'Built for virtual reality gaming with high-end graphics.', 'Content/Images/image11.jpg'),
+               (12, 'Convertible 2-in-1', 799, 'Versatile laptop-tablet hybrid for on-the-go productivity.', 'Content/Images/image12.jpg'),
+               (13, 'Creative Studio Laptop', 1399, 'Portable laptop optimized for graphic design and content creation.', 'Content/Images/image13.jpg'),
+               (14, 'Everyday Performance Tower', 499, 'Affordable desktop PC for daily computing tasks.', 'Content/Images/image14.jpg'),
+               (15, 'Streaming and Recording Setup', 999, 'Complete setup for content creators, including microphone and camera.', 'Content/Images/image15.jpg'),
+               (16, 'Business Workhorse Laptop', 1099, 'Durable laptop with extended battery life for business professionals.', 'Content/Images/image16.jpg'),
+               (17, 'Gaming Laptop Elite', 1799, 'High-performance gaming laptop with premium build and features.', 'Content/Images/image17.jpg'),
+               (18, 'Portable Gaming Console', 349, 'Compact gaming console for playing on the go.', 'Content/Images/image18.jpg'),
+               (19, 'Digital Artist''s Canvas', 299, 'Graphics tablet and stylus bundle for digital artists.', 'Content/Images/image19.jpg'),
+               (20, 'Home Server Solution', 499, 'Network-attached storage (NAS) for centralized file storage and backup.', 'Content/Images/image20.jpg');
+
+            <!-- Inserting data into Components table -->
+            INSERT INTO Components (ComponentID, ComponentName, Price)
+            VALUES
+               (1, 'RAM', 100),
+               (2, 'HardDrive', 150),
+               (3, 'CPU', 200),
+               (4, 'Display', 300),
+               (5, 'OS', 50),
+               (6, 'SoundCard', 30),
+               (7, 'GraphicsCard', 500),
+               (8, 'SSD', 120),
+               (9, 'PowerSupply', 100),
+               (10, 'CoolingSystem', 150),
+               (11, 'Keyboard', 120),
+               (12, 'Mouse', 80),
+               (13, 'Headset', 150),
+               (14, 'Webcam', 70),
+               (15, 'MonitorStand', 50);
+
+            <!-- Inserting sample data into Customers table -->
+            INSERT INTO Customers (FirstName, LastName, Email, Username, Password)
+            VALUES
+               ('John', 'Doe', 'john@example.com', 'john_doe', 'hashed_and_salted_password');
+
+            <!-- Inserting data into OrderDetails table -->
+            INSERT INTO OrderDetails (OrderID, ComputerID, ComponentID, ComponentPrice)
+            VALUES
+               (1, 1, 2, 150); 
+
+            <!-- Inserting data into Orders table -->
+            INSERT INTO Orders (CustomerID, OrderDate, TotalPrice)
+            VALUES
+               (1, '2023-09-07', 500.00);
+        </code>
+    </pre>
       <h3>User Guide</h3>
       <p>
          The following user guide provides instructions on using the fully functional online computer store developed for Part 4:
@@ -175,7 +238,7 @@
          <li>Registered customers can manage their orders, view order lists, details, and make modifications or deletions.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="./part4/">Part 4</a></p>
+      <p>Site link: <a href="http://68.147.61.110/ComputerStore/">Part 4</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>

@@ -1,0 +1,15 @@
+﻿1;RAM;100
+2;HardDrive;150
+3;CPU;200
+4;Display;300
+5;OS;50
+6;SoundCard;30
+7;GraphicsCard;500
+8;SSD;120
+9;PowerSupply;100
+10;CoolingSystem;150
+11;Keyboard;120
+12;Mouse;80
+13;Headset;150
+14;Webcam;70
+15;MonitorStand;50

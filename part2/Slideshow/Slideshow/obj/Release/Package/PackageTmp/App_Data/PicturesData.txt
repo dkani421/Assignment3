@@ -1,0 +1,20 @@
+Sell;Content/Images/image1.jpg;Sell logo made for a trading group.
+BHSL;Content/Images/image2.jpg;BHSL logo made for a trading group.
+SnoopUp;Content/Images/image3.jpg;Buy signal snoopy.
+Buy;Content/Images/image4.jpg;Buy logo made for a trading group.
+SnoopLike;Content/Images/image5.jpg;Like signal snoopy.
+BHSL2;Content/Images/image6.jpg;BHSL logo made for a trading group.
+SnoopRocket;Content/Images/image7.jpg;Rocket signal snoopy.
+SnoopDown;Content/Images/image8.jpg;Sell signal snoopy.
+SlotMachine;Content/Images/image9.jpg;Ardunio Slot machine I developed.
+Yeezy;Content/Images/image10.jpg;First pair of nice shoes.
+Commander;Content/Images/image11.jpg;Troll commander from troll game nft.
+Family;Content/Images/image12.jpg;Little collage of friends family and fun!
+TG;Content/Images/image13.jpg;Troll game NFT logo.
+Troll1;Content/Images/image14.jpg;Orange troll with weapon and armour from troll game.
+Troll2;Content/Images/image15.jpg;Grey troll with weapon and armour from troll game.
+Troll3;Content/Images/image16.jpg;Teal troll with weapon and armour from troll game.
+BHSLqr;Content/Images/image17.jpg;QR code for our trading discord.
+Weapon1;Content/Images/image18.jpg;Red troll game weapon.
+Weapon2;Content/Images/image19.jpg;Orange troll game weapon.
+Weapon3;Content/Images/image20.jpg;Yellow troll game weapon.
