@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using BCrypt.Net;
@@ -16,11 +16,20 @@ namespace ComputerStore
             string lastName = txtLastName.Text;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
+            string email = txtEmail.Text; // Retrieve email input
 
             // Validate inputs (you can add more validation as needed)
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(email))
             {
                 lblMessage.Text = "Please fill in all fields.";
+                lblMessage.Visible = true;
+                return;
+            }
+
+            // Validate email format (you can use regular expressions or built-in methods)
+            if (!IsValidEmail(email))
+            {
+                lblMessage.Text = "Invalid email format.";
                 lblMessage.Visible = true;
                 return;
             }
@@ -30,18 +39,19 @@ namespace ComputerStore
                 // Hash the password securely using BCrypt
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
-                // Connect to the database using the connection string from web.config
+                // Connect to the MySQL database using the connection string from web.config
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString)) // Use MySqlConnection
                 {
                     connection.Open();
 
                     // Insert the new customer's information into the Customers table
-                    string insertQuery = "INSERT INTO Customers (FirstName, LastName, Username, Password) VALUES (@FirstName, @LastName, @Username, @Password)";
-                    using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                    string insertQuery = "INSERT INTO customers (FirstName, LastName, Email, Username, Password) VALUES (@FirstName, @LastName, @Email, @Username, @Password)";
+                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection)) // Use MySqlCommand
                     {
                         command.Parameters.AddWithValue("@FirstName", firstName);
                         command.Parameters.AddWithValue("@LastName", lastName);
+                        command.Parameters.AddWithValue("@Email", email);
                         command.Parameters.AddWithValue("@Username", username);
                         command.Parameters.AddWithValue("@Password", hashedPassword);
 
@@ -68,11 +78,24 @@ namespace ComputerStore
             }
             catch (Exception ex)
             {
-                // Handle any exceptions (e.g., database connection error)
-                lblMessage.Text = "An error occurred. Please try again later.";
+                // Handle any other exceptions (e.g., general exceptions)
+                lblMessage.Text = "An error occurred: " + ex.Message;
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Visible = true;
-                // You can also log the exception for debugging
+            }
+
+        }
+        // Protected method to validate email format
+        public bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

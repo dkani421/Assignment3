@@ -1,6 +1,10 @@
 ﻿using System;
-using System.Data.SqlClient;
+using System.Data;
+using MySql.Data.MySqlClient;
 using System.Web.UI;
+using BCrypt.Net;
+using System.Web.Security;
+using Microsoft.Ajax.Utilities;
 
 namespace ComputerStore
 {
@@ -15,9 +19,9 @@ namespace ComputerStore
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 // Display an error message if fields are empty
-                // You can use lblLoginMessage to display messages to the user
                 lblLoginMessage.Text = "Please fill in both fields.";
                 lblLoginMessage.ForeColor = System.Drawing.Color.Red;
+                lblLoginMessage.Visible = true;
                 return;
             }
 
@@ -30,25 +34,25 @@ namespace ComputerStore
                 if (BCrypt.Net.BCrypt.Verify(password, hashedPasswordFromDatabase))
                 {
                     // Authentication successful
-                    // Redirect the user to the dashboard or another protected page
-                    Response.Redirect("Dashboard.aspx");
+                    FormsAuthentication.SetAuthCookie(username, false); // or true for "Remember Me" functionality
+                    Response.Redirect("Orders.aspx");
                 }
                 else
                 {
                     // Authentication failed
                     lblLoginMessage.Text = "Invalid username or password.";
                     lblLoginMessage.ForeColor = System.Drawing.Color.Red;
+                    lblLoginMessage.Visible = true;
                 }
             }
-            catch 
+            catch
             {
                 // Handle database or other exceptions
                 lblLoginMessage.Text = "An error occurred. Please try again later.";
                 lblLoginMessage.ForeColor = System.Drawing.Color.Red;
-                // Log the exception for debugging
+                lblLoginMessage.Visible = true;
             }
         }
-
 
         protected void btnRecoverPassword_Click(object sender, EventArgs e)
         {
@@ -58,9 +62,9 @@ namespace ComputerStore
             if (string.IsNullOrEmpty(username))
             {
                 // Display an error message if the username field is empty
-                // You can use lblRecoveryMessage to display messages to the user
                 lblRecoveryMessage.Text = "Please enter your username.";
                 lblRecoveryMessage.ForeColor = System.Drawing.Color.Red;
+                lblRecoveryMessage.Visible = true;
                 return;
             }
 
@@ -71,27 +75,68 @@ namespace ComputerStore
 
                 if (usernameExists)
                 {
-                    // Generate a password reset token and send it to the user's email
-                    string resetToken = GeneratePasswordResetToken(username);
-                    SendPasswordResetEmail(username, resetToken);
+                    // Generate a new password
+                    string newPassword = GenerateRandomPassword();
 
-                    // Inform the user that a password reset email has been sent
-                    lblRecoveryMessage.Text = "A password reset email has been sent to your registered email address.";
+                    // Update the user's password in the database
+                    UpdateUserPassword(username, newPassword);
+
+                    // Inform the user of their new password
+                    lblRecoveryMessage.Text = $"Your new password is: {newPassword}";
                     lblRecoveryMessage.ForeColor = System.Drawing.Color.Green;
+                    lblRecoveryMessage.Visible = true;
                 }
                 else
                 {
                     // Username not found
                     lblRecoveryMessage.Text = "Username not found.";
                     lblRecoveryMessage.ForeColor = System.Drawing.Color.Red;
+                    lblRecoveryMessage.Visible = true;
                 }
             }
-            catch 
+            catch
             {
-                // Handle database or email sending exceptions
+                // Handle database or other exceptions
                 lblRecoveryMessage.Text = "An error occurred. Please try again later.";
                 lblRecoveryMessage.ForeColor = System.Drawing.Color.Red;
+                lblRecoveryMessage.Visible = true;
                 // Log the exception for debugging
+            }
+        }
+
+        // Generate a random password
+        private string GenerateRandomPassword()
+        {
+            // Generate a random password (you can customize the logic here)
+            string newPassword = Guid.NewGuid().ToString().Substring(0, 8);
+            return newPassword;
+        }
+
+        // Update the user's password in the database
+        private void UpdateUserPassword(string username, string newPassword)
+        {
+            try
+            {
+                // Update the Password column for the specified username
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Update the Password column for the specified username
+                    string query = "UPDATE customers SET Password = @Password WHERE Username = @Username";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Password", BCrypt.Net.BCrypt.HashPassword(newPassword));
+                        command.Parameters.AddWithValue("@Username", username);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch
+            {
+                // Handle database connection or query error
+                // Log the exception or perform appropriate error handling
             }
         }
 
@@ -103,13 +148,13 @@ namespace ComputerStore
             try
             {
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
                     // Query to retrieve the hashed password from the database
-                    string query = "SELECT Password FROM Customers WHERE Username = @Username";
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    string query = "SELECT Password FROM customers WHERE Username = @Username";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Username", username);
                         object result = command.ExecuteScalar();
@@ -120,7 +165,7 @@ namespace ComputerStore
                     }
                 }
             }
-            catch 
+            catch
             {
                 // Handle database connection or query error
                 // Log the exception or perform appropriate error handling
@@ -131,47 +176,31 @@ namespace ComputerStore
 
         private bool CheckIfUsernameExists(string username)
         {
-            bool usernameExists = false;
 
             // Connect to the database and check if the username exists
             try
             {
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // Query to check if the username exists in the Customers table
-                    string query = "SELECT COUNT(*) FROM Customers WHERE Username = @Username";
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    // Query to check if the username exists in the customers table
+                    string query = "SELECT COUNT(*) FROM customers WHERE Username = @Username";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
+                        string count = "";
                         command.Parameters.AddWithValue("@Username", username);
-                        int count = (int)command.ExecuteScalar();
-                        usernameExists = (count > 0);
+                        count = command.ExecuteScalar().ToString();
+                        return !(count=="0");
                     }
                 }
             }
-            catch 
+            catch
             {
                 // Handle database connection or query error
+                return false;
             }
-
-            return usernameExists;
-        }
-
-        private string GeneratePasswordResetToken(string username)
-        {
-            // Generate a unique password reset token for the user use a GUID (Globally Unique Identifier)
-            string resetToken = Guid.NewGuid().ToString();
-            return resetToken;
-        }
-
-        private void SendPasswordResetEmail(string username, string resetToken)
-        {
-            // Implement email sending logic here
-            // You can use a library like SmtpClient to send emails
-            // Construct the email message with a link that includes the resetToken
-            // Send the email to the user's registered email address
         }
     }
 }

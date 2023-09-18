@@ -10,6 +10,10 @@ namespace ComputerStore
         {
             if (!IsPostBack)
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    Response.Redirect("~/Login.aspx");
+                }
                 //int customerId = GetCurrentCustomerId(); // Implement a method to get the customer ID.
                 //List<Order> orders = OrderRepository.GetOrdersByCustomer(customerId); // Implement this method.
                 //gridViewOrders.DataSource = orders;
