@@ -16,6 +16,7 @@ namespace ComputerStore
             string lastName = txtLastName.Text;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
+            string confirmPassword = txtConfirmPassword.Text;
             string email = txtEmail.Text; // Retrieve email input
 
             // Validate inputs (you can add more validation as needed)
@@ -30,6 +31,20 @@ namespace ComputerStore
             if (!IsValidEmail(email))
             {
                 lblMessage.Text = "Invalid email format.";
+                lblMessage.Visible = true;
+                return;
+            }
+            // Validate username and password length
+            if (username.Length < 5 || password.Length < 5)
+            {
+                lblMessage.Text = "Username and password must be at least 5 characters long.";
+                lblMessage.Visible = true;
+                return;
+            }
+            // Check if password and confirm password match
+            if (password != confirmPassword)
+            {
+                lblMessage.Text = "Password and confirm password do not match.";
                 lblMessage.Visible = true;
                 return;
             }

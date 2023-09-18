@@ -8,14 +8,14 @@
         <h2>List of Orders</h2>
         <hr />
         <asp:GridView ID="gridViewOrders" runat="server" AutoGenerateColumns="false" OnRowCommand="GridViewOrders_RowCommand">
-            <Columns>
-                <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
-                <asp:BoundField DataField="OrderDate" HeaderText="Order Date" DataFormatString="{0:MM/dd/yyyy}" />
-                <asp:BoundField DataField="CustomerName" HeaderText="Customer Name" />
-                <asp:ButtonField ButtonType="Button" CommandName="ViewOrder" Text="View" HeaderText="Action" />
-                <asp:ButtonField ButtonType="Button" CommandName="EditOrder" Text="Edit" HeaderText="Action" />
-            </Columns>
-        </asp:GridView>
+        <Columns>
+            <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
+            <asp:BoundField DataField="OrderDate" HeaderText="Order Date" DataFormatString="{0:MM/dd/yyyy}" />
+            <asp:ButtonField ButtonType="Button" CommandName="ViewOrder" Text="View" HeaderText="Action" />
+            <asp:ButtonField ButtonType="Button" CommandName="EditOrder" Text="Edit" HeaderText="Action" />
+        </Columns>
+    </asp:GridView>
+
         <hr />
 
         <!-- View Order Details -->
