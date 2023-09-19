@@ -56,7 +56,7 @@ namespace ComputerStore
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // Handle any exceptions here, such as logging the error.
             }

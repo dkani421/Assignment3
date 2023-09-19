@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SqlClient;
+using System.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace ComputerStore
 {
@@ -71,6 +72,151 @@ namespace ComputerStore
         }
         protected void OrderButton_Click(object sender, EventArgs e)
         {
+            if (int.TryParse(Request.QueryString["computerId"], out int computerId))
+            {
+                // Get the customer ID dynamically (replace this with your actual logic)
+                int customerId = GetCurrentCustomerId();
+
+                // Parse the component values from the query string
+                string[] components = new string[]
+                {
+            Request.QueryString["Ram"],
+            Request.QueryString["HardDrive"],
+            Request.QueryString["CPU"],
+            Request.QueryString["Display"],
+            Request.QueryString["OS"],
+            Request.QueryString["SoundCard"]
+                };
+
+                decimal totalPrice = decimal.Parse(Request.QueryString["totalPrice"]);
+                string totalPriceLabel = Request.QueryString["TotalPriceLabel"];
+
+                // Insert the order into the database and get the newly created OrderID
+                int newOrderID = InsertOrder(customerId, totalPrice);
+
+                // Loop through the components and insert an order detail for each one
+                for (int i = 0; i < components.Length; i++)
+                {
+                    decimal componentPrice = GetComponentPrice(i); // Replace with the actual logic to get component prices
+
+                    // Insert order details into the database
+                    InsertOrderDetail(newOrderID, computerId, i + 1, componentPrice);
+                }
+
+                Response.Redirect("Orders.aspx");
+            }
+            else
+            {
+                // Handle the case where computerId cannot be parsed
+            }
+        }
+
+        private int GetCurrentCustomerId()
+        {
+            int customerId = -1;
+
+            try
+            {
+                string username = User.Identity.Name;
+
+
+
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT CustomerID FROM customers WHERE Username = @Username";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            customerId = Convert.ToInt32(result);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // If an error occurs, the customerId will remain as the default value (-1).
+            }
+
+            return customerId;
+        }
+
+        private decimal GetComponentPrice(int componentId)
+        {
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
+            string query = "SELECT Price FROM components WHERE ComponentID = @ComponentID";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ComponentID", componentId);
+
+                    connection.Open();
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return Convert.ToDecimal(result);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+
+        private int InsertOrder(int customerId, decimal totalPrice)
+        {
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string insertOrderSql = "INSERT INTO orders (CustomerID, OrderDate, TotalPrice) VALUES (@CustomerID, NOW(), @TotalPrice); SELECT LAST_INSERT_ID();";
+
+                using (MySqlCommand cmd = new MySqlCommand(insertOrderSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@CustomerID", customerId);
+                    cmd.Parameters.AddWithValue("@TotalPrice", totalPrice);
+
+                    int newOrderID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    return newOrderID;
+                }
+            }
+        }
+
+        private void InsertOrderDetail(int orderID, int computerId, int componentId, decimal componentPrice)
+        {
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string insertOrderDetailSql = "INSERT INTO orderdetails (OrderID, ComputerID, ComponentID, ComponentPrice) VALUES (@OrderID, @ComputerID, @ComponentID, @ComponentPrice);";
+
+                using (MySqlCommand cmd = new MySqlCommand(insertOrderDetailSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@OrderID", orderID);
+                    cmd.Parameters.AddWithValue("@ComputerID", computerId);
+                    cmd.Parameters.AddWithValue("@ComponentID", componentId);
+                    cmd.Parameters.AddWithValue("@ComponentPrice", componentPrice);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         protected Computer GetComputerById(int computerId)
