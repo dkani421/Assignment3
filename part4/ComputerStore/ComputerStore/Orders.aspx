@@ -11,8 +11,8 @@
         <Columns>
             <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
             <asp:BoundField DataField="OrderDate" HeaderText="Order Date" DataFormatString="{0:MM/dd/yyyy}" />
-            <asp:ButtonField ButtonType="Button" CommandName="ViewOrder" Text="View" HeaderText="Action" />
-            <asp:ButtonField ButtonType="Button" CommandName="EditOrder" Text="Edit" HeaderText="Action" />
+            <asp:ButtonField ButtonType="Button" CommandName="ViewOrder" Text="View" HeaderText="View Order" />
+            <asp:ButtonField ButtonType="Button" CommandName="EditOrder" Text="Edit" HeaderText="Edit Order" />
         </Columns>
     </asp:GridView>
 

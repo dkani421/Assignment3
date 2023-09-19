@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
+using MySql.Data.MySqlClient;
 
 namespace ComputerStore
 {
@@ -18,42 +19,46 @@ namespace ComputerStore
         protected void BindComputerData()
         {
             // Simulated data source, replace this with your actual data retrieval logic
-            ComputerRepeater.DataSource = GetComputerData();
+            ComputerRepeater.DataSource = GetComputerDataFromDatabase();
             ComputerRepeater.DataBind();
         }
 
-        protected List<Computer> GetComputerData()
+        protected List<Computer> GetComputerDataFromDatabase()
         {
             List<Computer> computers = new List<Computer>();
 
-            // Read lines from the ComputerData.txt file
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/App_Data/ComputerData.txt"));
-
-            foreach (string line in lines)
+            try
             {
-                string[] parts = line.Split(';');
-                if (parts.Length >= 5) // Make sure to adjust this based on the actual number of parts
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    string id = parts[0];
-                    string model = parts[1];
-                    string description = parts[2];
-                    string priceStr = parts[3];
-                    string imagePath = parts[4];
+                    connection.Open();
 
-                    // Assume you have a method to extract the price from the description
-                    int price = ExtractPriceFromDescription(priceStr);
-
-                    // Create a new Computer object and add it to the list
-                    Computer computer = new Computer
+                    string query = "SELECT * FROM computers";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        Id = Convert.ToInt32(id), // Convert id to an integer
-                        Model = model,
-                        Description = description,
-                        Price = price,
-                        ImagePath = imagePath
-                    };
-                    computers.Add(computer);
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Computer computer = new Computer
+                                {
+                                    Id = Convert.ToInt32(reader["ComputerID"]),
+                                    Model = reader["ModelName"].ToString(),
+                                    Description = reader["Description"].ToString(),
+                                    Price = Convert.ToDecimal(reader["Price"]),
+                                    ImagePath = reader["ImageURL"].ToString()
+                                };
+
+                                computers.Add(computer);
+                            }
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions here, such as logging the error.
             }
 
             return computers;
