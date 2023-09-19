@@ -191,24 +191,33 @@
             (20, 'Home Server Solution', 499, 'Network-attached storage (NAS) for centralized file storage and backup.', 'Content/Images/image20.jpg');
 
          <!-- Inserting data into Components table -->
-         INSERT INTO Components (ComponentID, ComponentName, Price)
+         INSERT INTO components (ComponentName, Price)
          VALUES
-            (1, 'RAM', 100),
-            (2, 'HardDrive', 150),
-            (3, 'CPU', 200),
-            (4, 'Display', 300),
-            (5, 'OS', 50),
-            (6, 'SoundCard', 30),
-            (7, 'GraphicsCard', 500),
-            (8, 'SSD', 120),
-            (9, 'PowerSupply', 100),
-            (10, 'CoolingSystem', 150),
-            (11, 'Keyboard', 120),
-            (12, 'Mouse', 80),
-            (13, 'Headset', 150),
-            (14, 'Webcam', 70),
-            (15, 'MonitorStand', 50);
-
+            ('RAM - No RAM', 0),
+            ('RAM - Basic', 100),
+            ('RAM - Standard', 150),
+            ('RAM - Advanced', 200),
+            ('Hard Drive - No Hard Drive', 0),
+            ('Hard Drive - Basic', 120),
+            ('Hard Drive - Standard', 180),
+            ('Hard Drive - Advanced', 250),
+            ('CPU - No CPU', 0),
+            ('CPU - Basic', 150),
+            ('CPU - Standard', 250),
+            ('CPU - Advanced', 350),
+            ('Display - No Display', 0),
+            ('Display - Basic', 200),
+            ('Display - Standard', 350),
+            ('Display - Advanced', 500),
+            ('OS - No OS', 0),
+            ('OS - Basic', 50),
+            ('OS - Standard', 80),
+            ('OS - Advanced', 120),
+            ('Sound Card - No Sound Card', 0),
+            ('Sound Card - Basic', 30),
+            ('Sound Card - Standard', 50),
+            ('Sound Card - Advanced', 80);
+            
          <!-- Inserting sample data into Customers table -->
          INSERT INTO Customers (FirstName, LastName, Email, Username, Password)
          VALUES
