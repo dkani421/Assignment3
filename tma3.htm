@@ -166,7 +166,7 @@
     <p>Below are the SQL scripts used to perform CRUD actions on the database tables. The tables were created using the phpMyAdmin DBMS:</p>
     <pre>
       <code>
-         <!-- Inserting data into Computers table -->
+         <h4>Inserting hardcoded data into tables initally.</h4>
          INSERT INTO Computers (ComputerID, ModelName, Price, Description, ImageURL)
          VALUES
             (1, 'Gaming Beast 5000', 1899, 'High-performance gaming PC with RGB lighting and liquid cooling.', 'Content/Images/image1.jpg'),
@@ -217,22 +217,8 @@
             ('Sound Card - Basic', 30),
             ('Sound Card - Standard', 50),
             ('Sound Card - Advanced', 80);
-            
-         <!-- Inserting sample data into Customers table -->
-         INSERT INTO Customers (FirstName, LastName, Email, Username, Password)
-         VALUES
-            ('John', 'Doe', 'john@example.com', 'john_doe', 'hashed_and_salted_password');
 
-         <!-- Inserting data into OrderDetails table -->
-         INSERT INTO OrderDetails (OrderID, ComputerID, ComponentID, ComponentPrice)
-         VALUES
-            (1, 1, 2, 150); 
-
-         <!-- Inserting data into Orders table -->
-         INSERT INTO Orders (CustomerID, OrderDate, TotalPrice)
-         VALUES
-            (1, '2023-09-07', 500.00);
-
+         <h4>Customer relation management, user setting and getting for pass username and more.</h4>
          string insertQuery = "INSERT INTO customers (FirstName, LastName, Email, Username, Password) VALUES (@FirstName, @LastName, @Email, @Username, @Password)";
          using (MySqlCommand command = new MySqlCommand(insertQuery, connection)) // Use MySqlCommand
          {
@@ -270,6 +256,84 @@
             Console.WriteLine(command.ExecuteScalar());
             count = command.ExecuteScalar().ToString();
             return !(count=="0");
+         }
+
+         string query = "SELECT CustomerID FROM customers WHERE Username = @Username";
+         using (MySqlCommand command = new MySqlCommand(query, connection))
+         {
+            command.Parameters.AddWithValue("@Username", username);
+
+            object result = command.ExecuteScalar();
+            if (result != null)
+            {
+               customerId = Convert.ToInt32(result);
+            }
+         }
+
+         <h4>Order management, getting the orders and producing view edit and delete CRUD operations.</h4>
+         string query = "SELECT * FROM orders WHERE CustomerID = @CustomerId";
+         using (MySqlCommand command = new MySqlCommand(query, connection))
+         {
+            command.Parameters.AddWithValue("@CustomerId", customerId);
+
+            // Execute the query and read the results
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+               while (reader.Read())
+               {
+                     Order order = new Order
+                     {
+                        OrderID = Convert.ToInt32(reader["OrderID"]),
+                        CustomerID = Convert.ToInt32(reader["CustomerID"]),
+                        OrderDate = Convert.ToDateTime(reader["OrderDate"]),
+                        TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
+                     };
+
+                     orders.Add(order);
+               }
+            }
+         }
+
+         string query = @"
+            SELECT o.OrderID, o.OrderDate, o.TotalPrice,
+                  od.OrderDetailID, od.ComputerID, od.ComponentID, od.ComponentPrice
+            FROM orders o
+            LEFT JOIN orderdetails od ON o.OrderID = od.OrderID
+            WHERE o.OrderID = @OrderID AND o.CustomerID = @CustomerID";
+         using (MySqlCommand command = new MySqlCommand(query, connection))
+         {
+            command.Parameters.AddWithValue("@OrderID", orderID);
+            command.Parameters.AddWithValue("@CustomerID", GetCurrentCustomerId());
+
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+            {
+               DataTable dt = new DataTable();
+               adapter.Fill(dt);
+
+               if (dt.Rows.Count > 0)
+               {
+                     lblViewOrderID.Text = dt.Rows[0]["OrderID"].ToString();
+                     lblViewOrderDate.Text = dt.Rows[0]["OrderDate"].ToString();
+                     decimal totalPrice = Convert.ToDecimal(dt.Rows[0]["TotalPrice"]);
+                     lblViewTotalPrice.Text = totalPrice.ToString("C"); // Formats as currency
+
+                     // Bind order details to the GridView
+                     gridViewOrderDetails.DataSource = dt;
+                     gridViewOrderDetails.DataBind();
+               }
+               else
+               {
+                     // No order details found for the selected order
+                     // You can display a message here if needed
+               }
+            }
+         }
+
+         string deleteOrderQuery = "DELETE FROM orders WHERE OrderID = @OrderID";
+         using (MySqlCommand deleteOrderCommand = new MySqlCommand(deleteOrderQuery, connection, transaction))
+         {
+             deleteOrderCommand.Parameters.AddWithValue("@OrderID", orderID);
+             deleteOrderCommand.ExecuteNonQuery();
          }
       </code>
     </pre>
