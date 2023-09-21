@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
@@ -120,7 +121,6 @@ namespace ComputerStore
             if (e.CommandName == "ViewOrder")
             {
                 int orderID = Convert.ToInt32(e.CommandArgument);
-                // Implement logic to display order details in the pnlViewOrder panel.
                 DisplayOrderDetails(orderID);
 
                 pnlViewOrder.Visible = true;
@@ -129,7 +129,6 @@ namespace ComputerStore
             else if (e.CommandName == "EditOrder")
             {
                 int orderID = Convert.ToInt32(e.CommandArgument);
-                // Implement logic to populate and display order details for editing in the pnlEditOrder panel.
                 EditOrder(orderID);
 
                 pnlEditOrder.Visible = true;
@@ -138,7 +137,6 @@ namespace ComputerStore
             else if (e.CommandName == "DeleteOrder")
             {
                 int orderID = Convert.ToInt32(e.CommandArgument);
-                // Implement logic to populate and display order details for editing in the pnlEditOrder panel.
                 DeleteOrder(orderID);
                 RefreshGridView();
 
@@ -155,26 +153,43 @@ namespace ComputerStore
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT * FROM orders WHERE OrderID = @OrderID + 1";
+                    string query = @"
+                        SELECT o.OrderID, o.OrderDate, o.TotalPrice,
+                               od.OrderDetailID, od.ComputerID, od.ComponentID, od.ComponentPrice
+                        FROM orders o
+                        LEFT JOIN orderdetails od ON o.OrderID = od.OrderID
+                        WHERE o.OrderID = @OrderID AND o.CustomerID = @CustomerID";
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@OrderID", orderID);
+                        command.Parameters.AddWithValue("@CustomerID", GetCurrentCustomerId());
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                         {
-                            if (reader.Read())
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            if (dt.Rows.Count > 0)
                             {
-                                // Populate order details and display them in the pnlViewOrder panel
-                                lblViewOrderID.Text = reader["OrderID"].ToString();
-                                lblViewOrderDate.Text = reader["OrderDate"].ToString();
-                                lblViewTotalPrice.Text = reader["TotalPrice"].ToString();
-                                // You can populate other labels here for additional order details
+                                lblViewOrderID.Text = dt.Rows[0]["OrderID"].ToString();
+                                lblViewOrderDate.Text = dt.Rows[0]["OrderDate"].ToString();
+                                decimal totalPrice = Convert.ToDecimal(dt.Rows[0]["TotalPrice"]);
+                                lblViewTotalPrice.Text = totalPrice.ToString("C"); // Formats as currency
+
+                                // Bind order details to the GridView
+                                gridViewOrderDetails.DataSource = dt;
+                                gridViewOrderDetails.DataBind();
+                            }
+                            else
+                            {
+                                // No order details found for the selected order
+                                // You can display a message here if needed
                             }
                         }
                     }
                 }
             }
-            catch 
+            catch
             {
                 // Handle any exceptions
             }
@@ -197,19 +212,52 @@ namespace ComputerStore
                         {
                             if (reader.Read())
                             {
-                                // Populate input fields for editing in the pnlEditOrder panel
-                                // For example:
-                                //txtOrderID.Text = reader["OrderID"].ToString();
-                                // Populate other input fields as needed
+                                // Populate labels with order information
+                                Label1.Text = reader["OrderID"].ToString();
+                                Label2.Text = reader["OrderDate"].ToString();
+                                // Format and display TotalPrice as currency
+                                decimal totalPrice = Convert.ToDecimal(reader["TotalPrice"]);
+                                Label3.Text = totalPrice.ToString("C"); // Formats as currency
+
+                                // Populate dropdown lists for component selection
+                                PopulateComponentDropdown("Ram", "ddlRam", pnlEditOrder, reader["Ram"].ToString());
+                                PopulateComponentDropdown("HardDrive", "ddlHardDrive", pnlEditOrder, reader["HardDrive"].ToString());
+                                PopulateComponentDropdown("CPU", "ddlCPU", pnlEditOrder, reader["CPU"].ToString());
+                                PopulateComponentDropdown("Display", "ddlDisplay", pnlEditOrder, reader["Display"].ToString());
+                                PopulateComponentDropdown("OS", "ddlOS", pnlEditOrder, reader["OS"].ToString());
+                                PopulateComponentDropdown("SoundCard", "ddlSoundCard", pnlEditOrder, reader["SoundCard"].ToString());
                             }
                         }
                     }
                 }
             }
-            catch 
+            catch
             {
                 // Handle any exceptions
             }
+        }
+
+        private void PopulateComponentDropdown(string componentName, string ddlID, Panel container, string selectedValue)
+        {
+            DropDownList ddlComponent = new DropDownList();
+            ddlComponent.ID = ddlID; // Assign a unique ID to each dropdown
+            ddlComponent.CssClass = "component-dropdown"; // Add CSS class for styling
+            container.Controls.Add(ddlComponent);
+
+            // Populate the dropdown with component options based on your database or data source
+            // You can fetch the component options from the database and add them as ListItem objects
+            // Example:
+            // ddlComponent.Items.Add(new ListItem("Option 1", "1"));
+            // ddlComponent.Items.Add(new ListItem("Option 2", "2"));
+            // ...
+
+            // Set the initial selected value for the dropdown
+            ddlComponent.SelectedValue = selectedValue;
+        }
+
+        protected void btnUpdateOrder_Click(object sender, EventArgs e)
+        {
+            // Your update logic here
         }
 
         private void DeleteOrder(int orderID)
@@ -217,18 +265,45 @@ namespace ComputerStore
             try
             {
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "DELETE FROM orders WHERE OrderID = @OrderID";
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+
+                    // Begin a transaction to ensure both order and order details are deleted or none at all
+                    using (MySqlTransaction transaction = connection.BeginTransaction())
                     {
-                        command.Parameters.AddWithValue("@OrderID", orderID);
-                        command.ExecuteNonQuery();
+                        try
+                        {
+                            // Delete order details associated with the order
+                            string deleteOrderDetailsQuery = "DELETE FROM orderdetails WHERE OrderID = @OrderID";
+                            using (MySqlCommand deleteOrderDetailsCommand = new MySqlCommand(deleteOrderDetailsQuery, connection, transaction))
+                            {
+                                deleteOrderDetailsCommand.Parameters.AddWithValue("@OrderID", orderID);
+                                deleteOrderDetailsCommand.ExecuteNonQuery();
+                            }
+
+                            // Delete the order itself
+                            string deleteOrderQuery = "DELETE FROM orders WHERE OrderID = @OrderID";
+                            using (MySqlCommand deleteOrderCommand = new MySqlCommand(deleteOrderQuery, connection, transaction))
+                            {
+                                deleteOrderCommand.Parameters.AddWithValue("@OrderID", orderID);
+                                deleteOrderCommand.ExecuteNonQuery();
+                            }
+
+                            // Commit the transaction
+                            transaction.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            // An error occurred, rollback the transaction
+                            transaction.Rollback();
+                            throw; // You can handle or log the exception as needed
+                        }
                     }
                 }
             }
-            catch 
+            catch (Exception)
             {
                 // Handle any exceptions
             }
@@ -266,13 +341,6 @@ namespace ComputerStore
             // Implement logic to navigate back to the list of orders.
             pnlViewOrder.Visible = false;
             pnlEditOrder.Visible = false;
-        }
-
-        protected void btnUpdateOrder_Click(object sender, EventArgs e)
-        {
-            // Implement logic to update the order details in the database.
-            pnlEditOrder.Visible = false;
-            pnlViewOrder.Visible = false;
         }
 
         protected void btnCancelEdit_Click(object sender, EventArgs e)

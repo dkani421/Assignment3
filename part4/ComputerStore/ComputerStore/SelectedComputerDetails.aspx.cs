@@ -74,22 +74,20 @@ namespace ComputerStore
         {
             if (int.TryParse(Request.QueryString["computerId"], out int computerId))
             {
-                // Get the customer ID dynamically (replace this with your actual logic)
                 int customerId = GetCurrentCustomerId();
 
                 // Parse the component values from the query string
                 string[] components = new string[]
                 {
-            Request.QueryString["Ram"],
-            Request.QueryString["HardDrive"],
-            Request.QueryString["CPU"],
-            Request.QueryString["Display"],
-            Request.QueryString["OS"],
-            Request.QueryString["SoundCard"]
+                    Request.QueryString["Ram"],
+                    Request.QueryString["HardDrive"],
+                    Request.QueryString["CPU"],
+                    Request.QueryString["Display"],
+                    Request.QueryString["OS"],
+                    Request.QueryString["SoundCard"]
                 };
 
-                decimal totalPrice = decimal.Parse(Request.QueryString["totalPrice"]);
-                string totalPriceLabel = Request.QueryString["TotalPriceLabel"];
+                decimal totalPrice = decimal.Parse(TotalPriceLabel.Text);
 
                 // Insert the order into the database and get the newly created OrderID
                 int newOrderID = InsertOrder(customerId, totalPrice);
@@ -97,7 +95,8 @@ namespace ComputerStore
                 // Loop through the components and insert an order detail for each one
                 for (int i = 0; i < components.Length; i++)
                 {
-                    decimal componentPrice = GetComponentPrice(i); // Replace with the actual logic to get component prices
+                    // Get the component price from the database based on the component name
+                    decimal componentPrice = GetComponentPrice(components[i]);
 
                     // Insert order details into the database
                     InsertOrderDetail(newOrderID, computerId, i + 1, componentPrice);
@@ -147,17 +146,18 @@ namespace ComputerStore
             return customerId;
         }
 
-        private decimal GetComponentPrice(int componentId)
+        private decimal GetComponentPrice(string componentName)
         {
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
 
-            string query = "SELECT Price FROM components WHERE ComponentID = @ComponentID";
+            // Modify the query to retrieve the component price based on the component name
+            string query = "SELECT Price FROM components WHERE ComponentName = @ComponentName";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@ComponentID", componentId);
+                    command.Parameters.AddWithValue("@ComponentName", componentName);
 
                     connection.Open();
 
