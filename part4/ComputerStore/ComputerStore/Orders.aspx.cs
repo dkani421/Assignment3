@@ -16,10 +16,23 @@ namespace ComputerStore
                 {
                     Response.Redirect("~/Login.aspx");
                 }
-                int customerId = GetCurrentCustomerId(); 
-                List<Order> orders = GetOrdersByCustomer(customerId); 
-                gridViewOrders.DataSource = orders;
-                gridViewOrders.DataBind();
+
+                int customerId = GetCurrentCustomerId();
+                List<Order> orders = GetOrdersByCustomer(customerId);
+
+                if (orders.Count > 0)
+                {
+                    // Orders found, bind and show the GridView
+                    gridViewOrders.DataSource = orders;
+                    gridViewOrders.DataBind();
+                    lblNoOrders.Visible = false; // Hide the "No orders" message
+                }
+                else
+                {
+                    // No orders found, show the "No orders" message and hide the GridView
+                    lblNoOrders.Visible = true;
+                    gridViewOrders.Visible = false;
+                }
             }
         }
 
@@ -108,6 +121,8 @@ namespace ComputerStore
             {
                 int orderID = Convert.ToInt32(e.CommandArgument);
                 // Implement logic to display order details in the pnlViewOrder panel.
+                DisplayOrderDetails(orderID);
+
                 pnlViewOrder.Visible = true;
                 pnlEditOrder.Visible = false;
             }
@@ -115,8 +130,134 @@ namespace ComputerStore
             {
                 int orderID = Convert.ToInt32(e.CommandArgument);
                 // Implement logic to populate and display order details for editing in the pnlEditOrder panel.
+                EditOrder(orderID);
+
                 pnlEditOrder.Visible = true;
                 pnlViewOrder.Visible = false;
+            }
+            else if (e.CommandName == "DeleteOrder")
+            {
+                int orderID = Convert.ToInt32(e.CommandArgument);
+                // Implement logic to populate and display order details for editing in the pnlEditOrder panel.
+                DeleteOrder(orderID);
+                RefreshGridView();
+
+                pnlEditOrder.Visible = false;
+                pnlViewOrder.Visible = false;
+            }
+        }
+
+        private void DisplayOrderDetails(int orderID)
+        {
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM orders WHERE OrderID = @OrderID + 1";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Populate order details and display them in the pnlViewOrder panel
+                                lblViewOrderID.Text = reader["OrderID"].ToString();
+                                lblViewOrderDate.Text = reader["OrderDate"].ToString();
+                                lblViewTotalPrice.Text = reader["TotalPrice"].ToString();
+                                // You can populate other labels here for additional order details
+                            }
+                        }
+                    }
+                }
+            }
+            catch 
+            {
+                // Handle any exceptions
+            }
+        }
+
+        private void EditOrder(int orderID)
+        {
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM orders WHERE OrderID = @OrderID";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Populate input fields for editing in the pnlEditOrder panel
+                                // For example:
+                                //txtOrderID.Text = reader["OrderID"].ToString();
+                                // Populate other input fields as needed
+                            }
+                        }
+                    }
+                }
+            }
+            catch 
+            {
+                // Handle any exceptions
+            }
+        }
+
+        private void DeleteOrder(int orderID)
+        {
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "DELETE FROM orders WHERE OrderID = @OrderID";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch 
+            {
+                // Handle any exceptions
+            }
+        }
+
+        private void RefreshGridView()
+        {
+            try
+            {
+                int customerId = GetCurrentCustomerId();
+                List<Order> orders = GetOrdersByCustomer(customerId);
+
+                if (orders.Count > 0)
+                {
+                    // Orders found, bind and show the GridView
+                    gridViewOrders.DataSource = orders;
+                    gridViewOrders.DataBind();
+                    lblNoOrders.Visible = false; // Hide the "No orders" message
+                }
+                else
+                {
+                    // No orders found, show the "No orders" message and hide the GridView
+                    lblNoOrders.Visible = true;
+                    gridViewOrders.Visible = false;
+                }
+            }
+            catch
+            {
+                // Handle any exceptions
             }
         }
 

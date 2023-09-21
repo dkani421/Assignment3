@@ -24,6 +24,15 @@ namespace ComputerStore
         protected global::System.Web.UI.WebControls.GridView gridViewOrders;
 
         /// <summary>
+        /// lblNoOrders control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNoOrders;
+
+        /// <summary>
         /// pnlViewOrder control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,33 @@ namespace ComputerStore
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlViewOrder;
+
+        /// <summary>
+        /// lblViewOrderID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblViewOrderID;
+
+        /// <summary>
+        /// lblViewOrderDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblViewOrderDate;
+
+        /// <summary>
+        /// lblViewTotalPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblViewTotalPrice;
 
         /// <summary>
         /// btnBackToList control.
