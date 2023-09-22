@@ -54,10 +54,11 @@
             <!-- GridView to display order details -->
             <asp:GridView ID="gridViewOrderDetails" runat="server" AutoGenerateColumns="false">
                 <Columns>
-                    <asp:BoundField DataField="ComponentID" HeaderText="Component ID" />
+                    <asp:BoundField DataField="ComponentName" HeaderText="Component Name" />
                     <asp:BoundField DataField="ComponentPrice" HeaderText="Component Price" DataFormatString="{0:C}" />
                 </Columns>
             </asp:GridView>
+
             <hr />
             <asp:Button ID="btnBackToList" runat="server" Text="Back to List" OnClick="btnBackToList_Click" />
             <hr />
@@ -81,33 +82,38 @@
     </div>
     <br />
     <!-- Dropdown lists for component selection -->
-    <div>
-        <strong>Ram:</strong>
-        <asp:DropDownList ID="ddlRam" runat="server" CssClass="component-dropdown"></asp:DropDownList>
-    </div>
-    <div>
-        <strong>Hard Drive:</strong>
-        <asp:DropDownList ID="ddlHardDrive" runat="server" CssClass="component-dropdown"></asp:DropDownList>
-    </div>
-    <div>
-        <strong>CPU:</strong>
-        <asp:DropDownList ID="ddlCPU" runat="server" CssClass="component-dropdown"></asp:DropDownList>
-    </div>
-    <div>
-        <strong>Display:</strong>
-        <asp:DropDownList ID="ddlDisplay" runat="server" CssClass="component-dropdown"></asp:DropDownList>
-    </div>
-    <div>
-        <strong>OS:</strong>
-        <asp:DropDownList ID="ddlOS" runat="server" CssClass="component-dropdown"></asp:DropDownList>
-    </div>
-    <div>
-        <strong>Sound Card:</strong>
-        <asp:DropDownList ID="ddlSoundCard" runat="server" CssClass="component-dropdown"></asp:DropDownList>
-    </div>
+<div style="margin-bottom: 10px;">
+    <strong style="font-weight: bold;">Ram:</strong>
+    <asp:DropDownList ID="ddlRam" runat="server" style="width: 100%;"></asp:DropDownList>
+</div>
+<div style="margin-bottom: 10px;">
+    <strong style="font-weight: bold;">Hard Drive:</strong>
+    <asp:DropDownList ID="ddlHardDrive" runat="server" style="width: 100%;"></asp:DropDownList>
+</div>
+<div style="margin-bottom: 10px;">
+    <strong style="font-weight: bold;">CPU:</strong>
+    <asp:DropDownList ID="ddlCPU" runat="server" style="width: 100%;"></asp:DropDownList>
+</div>
+<div style="margin-bottom: 10px;">
+    <strong style="font-weight: bold;">Display:</strong>
+    <asp:DropDownList ID="ddlDisplay" runat="server" style="width: 100%;"></asp:DropDownList>
+</div>
+<div style="margin-bottom: 10px;">
+    <strong style="font-weight: bold;">OS:</strong>
+    <asp:DropDownList ID="ddlOS" runat="server" style="width: 100%;"></asp:DropDownList>
+</div>
+<div style="margin-bottom: 10px;">
+    <strong style="font-weight: bold;">Sound Card:</strong>
+    <asp:DropDownList ID="ddlSoundCard" runat="server" style="width: 100%;"></asp:DropDownList>
+</div>
+
     <hr />
     <asp:Button ID="btnUpdateOrder" runat="server" Text="Update Order" OnClick="btnUpdateOrder_Click" />
     <asp:Button ID="btnCancelEdit" runat="server" Text="Cancel" OnClick="btnCancelEdit_Click" />
+    <div>
+        <strong>Update Status:</strong>
+        <asp:Label ID="lblUpdateStatus" runat="server" Text="" ForeColor="Green"></asp:Label>
+    </div>
     <hr />
 </asp:Panel>
 

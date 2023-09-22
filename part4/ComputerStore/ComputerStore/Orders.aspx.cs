@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -154,11 +155,12 @@ namespace ComputerStore
                 {
                     connection.Open();
                     string query = @"
-                        SELECT o.OrderID, o.OrderDate, o.TotalPrice,
-                               od.OrderDetailID, od.ComputerID, od.ComponentID, od.ComponentPrice
-                        FROM orders o
-                        LEFT JOIN orderdetails od ON o.OrderID = od.OrderID
-                        WHERE o.OrderID = @OrderID AND o.CustomerID = @CustomerID";
+                SELECT o.OrderID, o.OrderDate, o.TotalPrice,
+                       od.OrderDetailID, od.ComputerID, od.ComponentID, od.ComponentPrice, c.ComponentName
+                FROM orders o
+                LEFT JOIN orderdetails od ON o.OrderID = od.OrderID
+                LEFT JOIN components c ON od.ComponentID = c.ComponentID
+                WHERE o.OrderID = @OrderID AND o.CustomerID = @CustomerID";
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@OrderID", orderID);
@@ -195,6 +197,82 @@ namespace ComputerStore
             }
         }
 
+
+        private void PopulateComponentDropdown(string componentName, string ddlID, Panel container, string selectedValue)
+        {
+            DropDownList ddlComponent = container.FindControl(ddlID) as DropDownList;
+
+            // Ensure the DropDownList control was found
+            if (ddlComponent != null)
+            {
+                // Fetch the component options from the database and add them as ListItem objects
+                List<Component> componentOptions = GetComponentOptions(componentName);
+
+                // Clear existing items and add a default option
+                ddlComponent.Items.Clear();
+                ddlComponent.Items.Add(new ListItem("Select " + componentName, string.Empty));
+
+                foreach (Component option in componentOptions)
+                {
+                    // Check if the option's name contains the component name (partial match)
+                    if (option.Name.Contains(componentName))
+                    {
+                        ListItem listItem = new ListItem(option.Name, option.Price.ToString());
+                        ddlComponent.Items.Add(listItem);
+                    }
+                }
+
+                // Set the initial selected value for the dropdown
+                ddlComponent.SelectedValue = selectedValue;
+            }
+        }
+
+        private List<Component> GetComponentOptions(string componentName)
+        {
+            List<Component> components = new List<Component>();
+
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Modify the query to retrieve component options for the given componentName
+                    string query = "SELECT * FROM components WHERE ComponentName LIKE @ComponentNamePattern"; // Use "ComponentName" here
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ComponentNamePattern", "%" + componentName + "%");
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Component component = new Component
+                                {
+                                    ComponentID = Convert.ToInt32(reader["ComponentID"]),
+                                    Name = reader["ComponentName"].ToString(),
+                                    Price = Convert.ToDecimal(reader["Price"])
+                                };
+
+                                components.Add(component);
+
+                                // Print query results for debugging
+                                Console.WriteLine($"Component ID: {component.ComponentID}, Name: {component.Name}, Price: {component.Price}");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and print error message
+                Console.WriteLine("Error in GetComponentOptions: " + ex.Message);
+            }
+
+            return components;
+        }
+
         private void EditOrder(int orderID)
         {
             try
@@ -203,7 +281,14 @@ namespace ComputerStore
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT * FROM orders WHERE OrderID = @OrderID";
+                    string query = @"
+                SELECT o.OrderID, o.OrderDate, o.TotalPrice,
+                       od.OrderDetailID, od.ComponentID, c.ComponentName
+                FROM orders o
+                INNER JOIN orderdetails od ON o.OrderID = od.OrderID
+                INNER JOIN components c ON od.ComponentID = c.ComponentID
+                WHERE o.OrderID = @OrderID";
+
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@OrderID", orderID);
@@ -215,49 +300,179 @@ namespace ComputerStore
                                 // Populate labels with order information
                                 Label1.Text = reader["OrderID"].ToString();
                                 Label2.Text = reader["OrderDate"].ToString();
-                                // Format and display TotalPrice as currency
-                                decimal totalPrice = Convert.ToDecimal(reader["TotalPrice"]);
-                                Label3.Text = totalPrice.ToString("C"); // Formats as currency
+                                Label3.Text = Convert.ToDecimal(reader["TotalPrice"]).ToString("C"); // Formats as currency
 
-                                // Populate dropdown lists for component selection
-                                PopulateComponentDropdown("Ram", "ddlRam", pnlEditOrder, reader["Ram"].ToString());
-                                PopulateComponentDropdown("HardDrive", "ddlHardDrive", pnlEditOrder, reader["HardDrive"].ToString());
-                                PopulateComponentDropdown("CPU", "ddlCPU", pnlEditOrder, reader["CPU"].ToString());
-                                PopulateComponentDropdown("Display", "ddlDisplay", pnlEditOrder, reader["Display"].ToString());
-                                PopulateComponentDropdown("OS", "ddlOS", pnlEditOrder, reader["OS"].ToString());
-                                PopulateComponentDropdown("SoundCard", "ddlSoundCard", pnlEditOrder, reader["SoundCard"].ToString());
+                                // Now, we have the ComponentName in the reader
+                                string componentName = reader["ComponentName"].ToString();
+
+                                // Define a list of component names
+                                List<string> componentNames = new List<string>
+                        {
+                            "RAM", "Hard Drive", "CPU", "Display", "OS", "Sound Card"
+                        };
+
+                                // Iterate through component names and populate dropdowns
+                                foreach (string component in componentNames)
+                                {
+                                    // Construct the dropdown ID based on the component name
+                                    string ddlID = "ddl" + component.Replace(" ", "");
+
+                                    // Get the selected component value from the reader
+                                    string selectedValue = componentName == component ? componentName : "";
+
+                                    // Populate the dropdown for the current component
+                                    PopulateComponentDropdown(component, ddlID, pnlEditOrder, selectedValue);
+                                }
                             }
                         }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Handle any exceptions
+                // Log the entire exception, including the query
+                Console.WriteLine("Error in EditOrder: " + ex.ToString());
             }
         }
 
-        private void PopulateComponentDropdown(string componentName, string ddlID, Panel container, string selectedValue)
-        {
-            DropDownList ddlComponent = new DropDownList();
-            ddlComponent.ID = ddlID; // Assign a unique ID to each dropdown
-            ddlComponent.CssClass = "component-dropdown"; // Add CSS class for styling
-            container.Controls.Add(ddlComponent);
-
-            // Populate the dropdown with component options based on your database or data source
-            // You can fetch the component options from the database and add them as ListItem objects
-            // Example:
-            // ddlComponent.Items.Add(new ListItem("Option 1", "1"));
-            // ddlComponent.Items.Add(new ListItem("Option 2", "2"));
-            // ...
-
-            // Set the initial selected value for the dropdown
-            ddlComponent.SelectedValue = selectedValue;
-        }
 
         protected void btnUpdateOrder_Click(object sender, EventArgs e)
         {
-            // Your update logic here
+            try
+            {
+                // Get the order ID
+                int orderID = Convert.ToInt32(Label1.Text);
+
+                // Get the selected component values from dropdown lists
+                string selectedRAM = ddlRam.SelectedValue;
+                string selectedHardDrive = ddlHardDrive.SelectedValue;
+                string selectedCPU = ddlCPU.SelectedValue;
+                string selectedDisplay = ddlDisplay.SelectedValue;
+                string selectedOS = ddlOS.SelectedValue;
+                string selectedSoundCard = ddlSoundCard.SelectedValue;
+
+                // Calculate the total price based on selected components
+                decimal totalPrice = CalculateTotalPrice(selectedRAM, selectedHardDrive, selectedCPU, selectedDisplay, selectedOS, selectedSoundCard);
+
+                // Update order details in the database
+                UpdateOrderDetails(orderID, selectedRAM, selectedHardDrive, selectedCPU, selectedDisplay, selectedOS, selectedSoundCard);
+
+                // Update the total price of the order in the orders table
+                UpdateOrderTotalPrice(orderID, totalPrice);
+
+                // Update the order date to the current date and time
+                UpdateOrderDate(orderID);
+
+                // Display a success message to the user
+                lblUpdateStatus.Text = "Order updated successfully!";
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions and display an error message if needed
+                lblUpdateStatus.Text = "Error updating order: " + ex.Message;
+            }
+        }
+
+        private void UpdateOrderDate(int orderID)
+        {
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Update the order date in the orders table based on OrderID
+                    string updateOrderDateQuery = "UPDATE orders SET OrderDate = NOW() WHERE OrderID = @OrderID";
+
+                    using (MySqlCommand command = new MySqlCommand(updateOrderDateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log the error message
+                Console.WriteLine("Error updating order date: " + ex.Message);
+            }
+        }
+
+        private decimal CalculateTotalPrice(string ramPrice, string hardDrivePrice, string cpuPrice, string displayPrice, string osPrice, string soundCardPrice)
+        {
+            // Convert the selected component prices to decimal and sum them
+            decimal totalPrice = decimal.Parse(ramPrice) + decimal.Parse(hardDrivePrice) + decimal.Parse(cpuPrice) + decimal.Parse(displayPrice) + decimal.Parse(osPrice) + decimal.Parse(soundCardPrice);
+
+            return totalPrice;
+        }
+
+        private void UpdateOrderDetails(int orderID, string ram, string hardDrive, string cpu, string display, string os, string soundCard)
+        {
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Update the order details in the orderdetails table based on OrderID
+                    string updateOrderDetailsQuery = @"
+                UPDATE orderdetails
+                SET RAM = @RAM, HardDrive = @HardDrive, CPU = @CPU, Display = @Display, OS = @OS, SoundCard = @SoundCard
+                WHERE OrderID = @OrderID";
+
+                    using (MySqlCommand command = new MySqlCommand(updateOrderDetailsQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+                        command.Parameters.AddWithValue("@RAM", ram);
+                        command.Parameters.AddWithValue("@HardDrive", hardDrive);
+                        command.Parameters.AddWithValue("@CPU", cpu);
+                        command.Parameters.AddWithValue("@Display", display);
+                        command.Parameters.AddWithValue("@OS", os);
+                        command.Parameters.AddWithValue("@SoundCard", soundCard);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log the error message
+                Console.WriteLine("Error updating order details: " + ex.Message);
+            }
+        }
+
+        private void UpdateOrderTotalPrice(int orderID, decimal totalPrice)
+        {
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Update the total price in the orders table based on OrderID
+                    string updateOrderTotalPriceQuery = "UPDATE orders SET TotalPrice = @TotalPrice WHERE OrderID = @OrderID";
+
+                    using (MySqlCommand command = new MySqlCommand(updateOrderTotalPriceQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+                        command.Parameters.AddWithValue("@TotalPrice", totalPrice);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log the error message
+                Console.WriteLine("Error updating order total price: " + ex.Message);
+            }
         }
 
         private void DeleteOrder(int orderID)

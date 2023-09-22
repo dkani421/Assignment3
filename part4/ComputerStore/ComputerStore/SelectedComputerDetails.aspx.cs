@@ -79,12 +79,12 @@ namespace ComputerStore
                 // Parse the component values from the query string
                 string[] components = new string[]
                 {
-                    Request.QueryString["Ram"],
-                    Request.QueryString["HardDrive"],
-                    Request.QueryString["CPU"],
-                    Request.QueryString["Display"],
-                    Request.QueryString["OS"],
-                    Request.QueryString["SoundCard"]
+            Request.QueryString["Ram"],
+            Request.QueryString["HardDrive"],
+            Request.QueryString["CPU"],
+            Request.QueryString["Display"],
+            Request.QueryString["OS"],
+            Request.QueryString["SoundCard"]
                 };
 
                 decimal totalPrice = decimal.Parse(TotalPriceLabel.Text);
@@ -98,8 +98,8 @@ namespace ComputerStore
                     // Get the component price from the database based on the component name
                     decimal componentPrice = GetComponentPrice(components[i]);
 
-                    // Insert order details into the database
-                    InsertOrderDetail(newOrderID, computerId, i + 1, componentPrice);
+                    // Insert order details into the database using the component name
+                    InsertOrderDetail(newOrderID, computerId, components[i], componentPrice);
                 }
 
                 Response.Redirect("Orders.aspx");
@@ -109,6 +109,7 @@ namespace ComputerStore
                 // Handle the case where computerId cannot be parsed
             }
         }
+
 
         private int GetCurrentCustomerId()
         {
@@ -197,7 +198,7 @@ namespace ComputerStore
             }
         }
 
-        private void InsertOrderDetail(int orderID, int computerId, int componentId, decimal componentPrice)
+        private void InsertOrderDetail(int orderID, int computerId, string componentName, decimal componentPrice)
         {
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
 
@@ -205,19 +206,32 @@ namespace ComputerStore
             {
                 connection.Open();
 
-                string insertOrderDetailSql = "INSERT INTO orderdetails (OrderID, ComputerID, ComponentID, ComponentPrice) VALUES (@OrderID, @ComputerID, @ComponentID, @ComponentPrice);";
+                // Modify the query to retrieve the component ID based on the component name
+                string componentIdQuery = "SELECT ComponentID FROM components WHERE ComponentName = @ComponentName";
 
-                using (MySqlCommand cmd = new MySqlCommand(insertOrderDetailSql, connection))
+                using (MySqlCommand componentIdCommand = new MySqlCommand(componentIdQuery, connection))
                 {
-                    cmd.Parameters.AddWithValue("@OrderID", orderID);
-                    cmd.Parameters.AddWithValue("@ComputerID", computerId);
-                    cmd.Parameters.AddWithValue("@ComponentID", componentId);
-                    cmd.Parameters.AddWithValue("@ComponentPrice", componentPrice);
+                    componentIdCommand.Parameters.AddWithValue("@ComponentName", componentName);
 
-                    cmd.ExecuteNonQuery();
+                    // Retrieve the component ID
+                    int componentId = Convert.ToInt32(componentIdCommand.ExecuteScalar());
+
+                    // Insert order details into the database
+                    string insertOrderDetailSql = "INSERT INTO orderdetails (OrderID, ComputerID, ComponentID, ComponentPrice) VALUES (@OrderID, @ComputerID, @ComponentID, @ComponentPrice);";
+
+                    using (MySqlCommand cmd = new MySqlCommand(insertOrderDetailSql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@OrderID", orderID);
+                        cmd.Parameters.AddWithValue("@ComputerID", computerId);
+                        cmd.Parameters.AddWithValue("@ComponentID", componentId); // Use the retrieved component ID
+                        cmd.Parameters.AddWithValue("@ComponentPrice", componentPrice);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
+
 
         protected Computer GetComputerById(int computerId)
         {
