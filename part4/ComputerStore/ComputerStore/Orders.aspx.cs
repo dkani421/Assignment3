@@ -335,6 +335,42 @@ namespace ComputerStore
             }
         }
 
+        private decimal GetInitialComputerPrice(int orderID)
+        {
+            decimal initialComputerPrice = 0.0m;
+
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"
+                SELECT c.Price
+                FROM orderdetails od
+                INNER JOIN computers c ON od.ComputerID = c.ComputerID
+                WHERE od.OrderID = @OrderID";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderID", orderID);
+
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            initialComputerPrice = Convert.ToDecimal(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log the error message
+                Console.WriteLine("Error fetching initial computer price: " + ex.Message);
+            }
+
+            return initialComputerPrice;
+        }
 
         protected void btnUpdateOrder_Click(object sender, EventArgs e)
         {
@@ -351,17 +387,17 @@ namespace ComputerStore
                 string selectedOS = ddlOS.SelectedValue;
                 string selectedSoundCard = ddlSoundCard.SelectedValue;
 
-                // Calculate the total price based on selected components
-                decimal totalPrice = CalculateTotalPrice(selectedRAM, selectedHardDrive, selectedCPU, selectedDisplay, selectedOS, selectedSoundCard);
+                // Retrieve the initial computer price
+                decimal initialComputerPrice = GetInitialComputerPrice(orderID);
+
+                // Calculate the total price based on selected components and initial computer price
+                decimal totalPrice = CalculateTotalPrice(initialComputerPrice.ToString(), selectedRAM, selectedHardDrive, selectedCPU, selectedDisplay, selectedOS, selectedSoundCard);
 
                 // Update order details in the database
                 UpdateOrderDetails(orderID, selectedRAM, selectedHardDrive, selectedCPU, selectedDisplay, selectedOS, selectedSoundCard);
 
                 // Update the total price of the order in the orders table
                 UpdateOrderTotalPrice(orderID, totalPrice);
-
-                // Update the order date to the current date and time
-                UpdateOrderDate(orderID);
 
                 // Display a success message to the user
                 lblUpdateStatus.Text = "Order updated successfully!";
@@ -373,38 +409,10 @@ namespace ComputerStore
             }
         }
 
-        private void UpdateOrderDate(int orderID)
+        private decimal CalculateTotalPrice(string initialComputerPrice, string ramPrice, string hardDrivePrice, string cpuPrice, string displayPrice, string osPrice, string soundCardPrice)
         {
-            try
-            {
-                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
-
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    // Update the order date in the orders table based on OrderID
-                    string updateOrderDateQuery = "UPDATE orders SET OrderDate = NOW() WHERE OrderID = @OrderID";
-
-                    using (MySqlCommand command = new MySqlCommand(updateOrderDateQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@OrderID", orderID);
-
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions or log the error message
-                Console.WriteLine("Error updating order date: " + ex.Message);
-            }
-        }
-
-        private decimal CalculateTotalPrice(string ramPrice, string hardDrivePrice, string cpuPrice, string displayPrice, string osPrice, string soundCardPrice)
-        {
-            // Convert the selected component prices to decimal and sum them
-            decimal totalPrice = decimal.Parse(ramPrice) + decimal.Parse(hardDrivePrice) + decimal.Parse(cpuPrice) + decimal.Parse(displayPrice) + decimal.Parse(osPrice) + decimal.Parse(soundCardPrice);
+            // Convert the selected component prices and initial computer price to decimal and sum them
+            decimal totalPrice = decimal.Parse(initialComputerPrice) + decimal.Parse(ramPrice) + decimal.Parse(hardDrivePrice) + decimal.Parse(cpuPrice) + decimal.Parse(displayPrice) + decimal.Parse(osPrice) + decimal.Parse(soundCardPrice);
 
             return totalPrice;
         }
@@ -419,11 +427,18 @@ namespace ComputerStore
                 {
                     connection.Open();
 
-                    // Update the order details in the orderdetails table based on OrderID
+                    // Retrieve ComponentID and Price values for the provided component names using CTE
                     string updateOrderDetailsQuery = @"
-                UPDATE orderdetails
-                SET RAM = @RAM, HardDrive = @HardDrive, CPU = @CPU, Display = @Display, OS = @OS, SoundCard = @SoundCard
-                WHERE OrderID = @OrderID";
+                WITH data as 
+                (
+                    SELECT ComponentID, Price
+                    FROM components C
+                    WHERE C.ComponentName IN (@RAM, @HardDrive, @CPU, @Display, @OS, @SoundCard)
+                )
+                UPDATE OrderDetails OD
+                JOIN data ON OD.ComponentID = data.ComponentID
+                SET OD.Price = data.Price
+                WHERE OD.OrderID = @OrderID";
 
                     using (MySqlCommand command = new MySqlCommand(updateOrderDetailsQuery, connection))
                     {
