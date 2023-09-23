@@ -210,8 +210,6 @@ namespace ComputerStore
                 // Modify the query to retrieve the component ID based on the component name
                 string componentIdQuery = "SELECT ComponentID, ComponentType FROM components WHERE ComponentName = @ComponentName";
 
-                //string componentTypeQuery = "SELECT ComponentType FROM components WHERE ComponentName = @ComponentName";
-
                 using (MySqlCommand componentIdCommand = new MySqlCommand(componentIdQuery, connection))
                 {
                     componentIdCommand.Parameters.AddWithValue("@ComponentName", componentName);

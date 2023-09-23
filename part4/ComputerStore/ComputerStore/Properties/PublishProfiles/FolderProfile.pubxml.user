@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\wamp64\www\Assignment3\published</_PublishTargetUrl>
-    <History>True|2023-09-11T21:34:10.2381475Z;</History>
+    <_PublishTargetUrl>C:\wamp64\www\Assignment3\part4\ComputerStore\ComputerStore\bin\app.publish\</_PublishTargetUrl>
+    <History>True|2023-09-23T23:07:22.5444751Z;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -37,10 +37,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/19/2021 05:53:32</publishTime>
     </File>
     <File Include="bin/ComputerStore.dll">
-      <publishTime>09/11/2023 15:34:09</publishTime>
+      <publishTime>09/23/2023 17:07:21</publishTime>
     </File>
     <File Include="bin/ComputerStore.pdb">
-      <publishTime>09/11/2023 15:34:09</publishTime>
+      <publishTime>09/23/2023 17:07:21</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>04/16/2020 14:38:42</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>04/16/2020 14:38:56</publishTime>
     </File>
     <File Include="bin/Google.Protobuf.dll">
       <publishTime>10/26/2022 07:46:16</publishTime>
@@ -66,8 +72,53 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="bin/Microsoft.Bcl.AsyncInterfaces.dll">
       <publishTime>10/19/2020 12:40:36</publishTime>
     </File>
+    <File Include="bin/Microsoft.Bcl.HashCode.dll">
+      <publishTime>11/15/2019 01:38:12</publishTime>
+    </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/04/2023 17:39:33</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>12/14/2019 13:11:16</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.dll">
+      <publishTime>12/14/2019 13:11:44</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>12/14/2019 13:11:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Caching.Abstractions.dll">
+      <publishTime>12/14/2019 11:38:54</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>12/14/2019 11:39:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.Abstractions.dll">
+      <publishTime>12/14/2019 11:39:16</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.Binder.dll">
+      <publishTime>12/14/2019 11:39:28</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.dll">
+      <publishTime>12/14/2019 11:39:18</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.Abstractions.dll">
+      <publishTime>12/14/2019 11:39:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>12/14/2019 11:39:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Logging.Abstractions.dll">
+      <publishTime>12/14/2019 11:40:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Logging.dll">
+      <publishTime>12/14/2019 11:41:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Options.dll">
+      <publishTime>12/14/2019 11:39:12</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Primitives.dll">
+      <publishTime>12/14/2019 11:39:30</publishTime>
     </File>
     <File Include="bin/Microsoft.ScriptManager.MSAjax.dll">
       <publishTime>09/04/2023 17:39:33</publishTime>
@@ -80,6 +131,15 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/MySql.Data.dll">
       <publishTime>07/11/2023 21:30:50</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.EntityFramework.dll">
+      <publishTime>07/11/2023 21:30:50</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.EntityFrameworkCore.dll">
+      <publishTime>09/18/2020 12:21:54</publishTime>
+    </File>
+    <File Include="bin/MySqlConnector.dll">
+      <publishTime>07/21/2023 17:31:04</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/04/2023 17:39:33</publishTime>
@@ -237,6 +297,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="bin/System.Buffers.dll">
       <publishTime>02/19/2020 03:05:18</publishTime>
     </File>
+    <File Include="bin/System.Collections.Immutable.dll">
+      <publishTime>11/15/2019 01:37:08</publishTime>
+    </File>
+    <File Include="bin/System.ComponentModel.Annotations.dll">
+      <publishTime>05/15/2018 07:29:36</publishTime>
+    </File>
     <File Include="bin/System.Configuration.ConfigurationManager.dll">
       <publishTime>11/20/2017 11:09:04</publishTime>
     </File>
@@ -271,7 +337,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/04/2023 17:39:32</publishTime>
     </File>
     <File Include="Contact.aspx">
-      <publishTime>09/05/2023 16:36:44</publishTime>
+      <publishTime>09/15/2023 13:44:37</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
       <publishTime>09/04/2023 17:39:33</publishTime>
@@ -433,10 +499,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/04/2023 17:39:33</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>09/04/2023 17:39:33</publishTime>
+      <publishTime>09/22/2023 15:48:36</publishTime>
     </File>
     <File Include="Customize.aspx">
-      <publishTime>09/04/2023 17:39:33</publishTime>
+      <publishTime>09/19/2023 14:38:18</publishTime>
     </File>
     <File Include="Default.aspx">
       <publishTime>09/04/2023 17:39:33</publishTime>
@@ -448,13 +514,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/04/2023 17:39:33</publishTime>
     </File>
     <File Include="Login.aspx">
-      <publishTime>09/07/2023 17:13:11</publishTime>
+      <publishTime>09/16/2023 16:10:07</publishTime>
+    </File>
+    <File Include="Logout.aspx">
+      <publishTime>09/17/2023 14:08:37</publishTime>
+    </File>
+    <File Include="Orders.aspx">
+      <publishTime>09/22/2023 15:49:47</publishTime>
     </File>
     <File Include="ProductListing.aspx">
       <publishTime>09/04/2023 17:39:33</publishTime>
     </File>
     <File Include="Registration.aspx">
-      <publishTime>09/07/2023 17:23:07</publishTime>
+      <publishTime>09/18/2023 15:37:38</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js">
       <publishTime>09/04/2023 17:39:33</publishTime>
@@ -577,10 +649,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/04/2023 17:39:33</publishTime>
     </File>
     <File Include="SelectedComputerDetails.aspx">
-      <publishTime>09/04/2023 17:39:33</publishTime>
+      <publishTime>09/19/2023 15:40:57</publishTime>
     </File>
     <File Include="Site.Master">
-      <publishTime>09/07/2023 15:08:07</publishTime>
+      <publishTime>09/22/2023 15:48:41</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>09/04/2023 17:39:33</publishTime>
@@ -589,7 +661,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/04/2023 17:39:33</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/11/2023 15:34:09</publishTime>
+      <publishTime>09/23/2023 17:07:21</publishTime>
     </File>
   </ItemGroup>
 </Project>

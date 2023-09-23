@@ -21,7 +21,7 @@
       <p>Estimated Hours Spent on the Assignment: 70</p>
       <hr>
       <h1>Assignment Documentation</h1>
-      <h2><a href="http://68.147.61.110/CookieTracker/">Project 3: Part 1</a></h2>
+      <h2><a href="http://68.146.236.192/CookieTracker/">Project 3: Part 1</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
          Part 1 of this project involved creating a web application using ASP.NET in C# that utilizes a persistent cookie to track the number of times a client computer has visited the page. The application is also designed to display the IP address of the client computer and the time zone of the client's location.
@@ -46,11 +46,11 @@
          <li>The web application will also display your client computer's IP address and the time zone of your location.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="http://68.147.61.110/CookieTracker/">Part 1</a></p>
+      <p>Site link: <a href="http://68.146.236.192/CookieTracker/">Part 1</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>
-      <h2><a href="http://68.147.61.110/Slideshow/">Project 3: Part 2</a></h2>
+      <h2><a href="http://68.146.236.192/Slideshow/">Project 3: Part 2</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
           Part 2 of this project involved developing a slideshow web application using ASP.NET in C#.
@@ -83,11 +83,11 @@
          <li>Utilize the controls provided to initiate and halt the slideshow, switch between random and sequential modes, and navigate manually through the images.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="http://68.147.61.110/Slideshow/">Part 2</a></p>
+      <p>Site link: <a href="http://68.146.236.192/Slideshow/">Part 2</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>
-      <h2><a href="http://68.147.61.110/HardcodeComputerStore/">Project 3: Part 3</a></h2>
+      <h2><a href="http://68.146.236.192/HardcodeComputerStore/">Project 3: Part 3</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
          Part 3 of this project marks the development of an online computer store where customers can customize computers and place orders. The application is designed using ASP.NET in C# as the server-side language.
@@ -130,11 +130,11 @@
          <li>Visit the contact page and leave a feedback message regarding your experiance using the system.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="http://68.147.61.110/HardcodeComputerStore/">Part 3</a></p>
+      <p>Site link: <a href="http://68.146.236.192/HardcodeComputerStore/">Part 3</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>
-      <h2><a href="http://68.147.61.110/ComputerStore/">Project 3: Part 4</a></h2>
+      <h2><a href="http://68.146.236.192/ComputerStore/">Project 3: Part 4</a></h2>
       <h3>Project Description and Requirements</h3>
       <p>
          Part 4 of this project extends the work accomplished in Part 3, focusing on the completion of a fully functional online computer store.
@@ -191,32 +191,32 @@
             (20, 'Home Server Solution', 499, 'Network-attached storage (NAS) for centralized file storage and backup.', 'Content/Images/image20.jpg');
 
          <!-- Inserting data into Components table -->
-         INSERT INTO components (ComponentName, Price)
+         INSERT INTO components (ComponentName, ComponentType, Price)
          VALUES
-            ('RAM - No RAM', 0),
-            ('RAM - Basic', 100),
-            ('RAM - Standard', 150),
-            ('RAM - Advanced', 200),
-            ('Hard Drive - No Hard Drive', 0),
-            ('Hard Drive - Basic', 120),
-            ('Hard Drive - Standard', 180),
-            ('Hard Drive - Advanced', 250),
-            ('CPU - No CPU', 0),
-            ('CPU - Basic', 150),
-            ('CPU - Standard', 250),
-            ('CPU - Advanced', 350),
-            ('Display - No Display', 0),
-            ('Display - Basic', 200),
-            ('Display - Standard', 350),
-            ('Display - Advanced', 500),
-            ('OS - No OS', 0),
-            ('OS - Basic', 50),
-            ('OS - Standard', 80),
-            ('OS - Advanced', 120),
-            ('Sound Card - No Sound Card', 0),
-            ('Sound Card - Basic', 30),
-            ('Sound Card - Standard', 50),
-            ('Sound Card - Advanced', 80);
+            ('RAM - No RAM', 1, 0),
+            ('RAM - Basic', 1, 100),
+            ('RAM - Standard', 1, 150),
+            ('RAM - Advanced', 1, 200),
+            ('Hard Drive - No Hard Drive', 2, 0),
+            ('Hard Drive - Basic', 2, 120),
+            ('Hard Drive - Standard', 2, 180),
+            ('Hard Drive - Advanced', 2, 250),
+            ('CPU - No CPU', 3, 0),
+            ('CPU - Basic', 3, 150),
+            ('CPU - Standard', 3, 250),
+            ('CPU - Advanced', 3, 350),
+            ('Display - No Display', 4, 0),
+            ('Display - Basic', 4, 200),
+            ('Display - Standard', 4, 350),
+            ('Display - Advanced', 4, 500),
+            ('OS - No OS', 5, 0),
+            ('OS - Basic', 5, 50),
+            ('OS - Standard', 5, 80),
+            ('OS - Advanced', 5, 120),
+            ('Sound Card - No Sound Card', 6, 0),
+            ('Sound Card - Basic', 6, 30),
+            ('Sound Card - Standard', 6, 50),
+            ('Sound Card - Advanced', 6, 80);
 
          <h4>Customer relation management, user setting and getting for pass username and more.</h4>
          string insertQuery = "INSERT INTO customers (FirstName, LastName, Email, Username, Password) VALUES (@FirstName, @LastName, @Email, @Username, @Password)";
@@ -294,6 +294,36 @@
             }
          }
 
+         string componentIdQuery = "SELECT ComponentID, ComponentType FROM components WHERE ComponentName = @ComponentName";
+
+         using (MySqlCommand componentIdCommand = new MySqlCommand(componentIdQuery, connection))
+         {
+            componentIdCommand.Parameters.AddWithValue("@ComponentName", componentName);
+            int componentID = 0;
+            int componentType = 0;
+            using (MySqlDataReader reader = componentIdCommand.ExecuteReader())
+            {
+               if (reader.Read())
+               {
+                     componentID = Convert.ToInt32(reader["ComponentID"]);
+                     componentType = Convert.ToInt32(reader["ComponentType"]);
+               }
+            }
+
+            // Insert order details into the database
+            string insertOrderDetailSql = "INSERT INTO orderdetails (OrderID, ComputerID, ComponentID, ComponentType, ComponentPrice) VALUES (@OrderID, @ComputerID, @ComponentID, @ComponentType, @ComponentPrice);";
+            using (MySqlCommand cmd = new MySqlCommand(insertOrderDetailSql, connection))
+            {
+               cmd.Parameters.AddWithValue("@OrderID", orderID);
+               cmd.Parameters.AddWithValue("@ComputerID", computerId);
+               cmd.Parameters.AddWithValue("@ComponentID", componentID); // Use the retrieved component ID
+               cmd.Parameters.AddWithValue("@ComponentType", componentType);
+               cmd.Parameters.AddWithValue("@ComponentPrice", componentPrice);
+
+               cmd.ExecuteNonQuery();
+            }
+         }
+
          string query = @"
             SELECT o.OrderID, o.OrderDate, o.TotalPrice,
                   od.OrderDetailID, od.ComputerID, od.ComponentID, od.ComponentPrice
@@ -350,7 +380,7 @@
          <li>Registered customers can manage their orders, view order lists, details, and make modifications or deletions.</li>
       </ol>
       <h3>Web Application Link</h3>
-      <p>Site link: <a href="http://68.147.61.110/ComputerStore/">Part 4</a></p>
+      <p>Site link: <a href="http://68.146.236.192/ComputerStore/">Part 4</a></p>
       <h3>Additional Notes</h3>
       <p>No Additional Notes</p>
       <hr>

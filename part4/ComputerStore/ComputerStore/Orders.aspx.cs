@@ -483,9 +483,9 @@ namespace ComputerStore
         private void UpdateComponentInOrderDetails(MySqlConnection connection, int orderID, int newComponentID, int targetComponentType, string selectedValue)
         {
             string query = @"
-    UPDATE orderdetails od
-    SET od.ComponentID = @ComponentID, od.ComponentPrice = @ComponentPrice
-    WHERE od.OrderID = @OrderID AND od.ComponentType = @ComponentType";
+            UPDATE orderdetails od
+            SET od.ComponentID = @ComponentID, od.ComponentPrice = @ComponentPrice
+            WHERE od.OrderID = @OrderID AND od.ComponentType = @ComponentType";
 
             using (MySqlCommand command = new MySqlCommand(query, connection))
             {

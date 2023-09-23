@@ -16,68 +16,17 @@
             </div>
              <div class="col-md-8">
                 <h3>Customization Details</h3>
-                <!-- Display customization details for RAM -->
                 <p>RAM: <asp:Label ID="RamSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for Hard Drive -->
                 <p>Hard Drive: <asp:Label ID="HardDriveSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for CPU -->
                 <p>CPU: <asp:Label ID="CpuSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for Display -->
                 <p>Display: <asp:Label ID="DisplaySelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for OS -->
                 <p>OS: <asp:Label ID="OsSelectionLabel" runat="server" /></p>
-                
-                <!-- Display customization details for Sound Card -->
                 <p>Sound Card: <asp:Label ID="SoundCardSelectionLabel" runat="server" /></p>
-
-                  <!-- Display total price -->
                 <p><strong>Total Price: $<asp:Label ID="TotalPriceLabel" runat="server" /></strong></p>
+                        
+            <asp:Button ID="OrderButton" runat="server" Text="Order" CssClass="btn btn-success" OnClick="OrderButton_Click" />
+
             </div>
-            <div class="col-md-4">
-                <h3>Customer Details</h3>
-                <h5>Shipping Address:</h5>
-                <div class="form-group">
-                    <label for="FullName">Full Name</label>
-                    <asp:TextBox ID="FullName" runat="server" CssClass="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="Address">Address</label>
-                    <asp:TextBox ID="Address" runat="server" CssClass="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="City">City</label>
-                    <asp:TextBox ID="City" runat="server" CssClass="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="State">State</label>
-                    <asp:TextBox ID="State" runat="server" CssClass="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="ZipCode">Zip Code</label>
-                    <asp:TextBox ID="ZipCode" runat="server" CssClass="form-control" />
-                </div>
-            </div>
-            <div class="col-md-4">
-            <h3>Payment Information</h3>
-            <h5>Card Details:</h5>
-            <div class="form-group">
-                <label for="CardNumber">Card Number</label>
-                <asp:TextBox ID="CardNumber" runat="server" CssClass="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="ExpirationDate">Expiration Date</label>
-                <asp:TextBox ID="ExpirationDate" runat="server" CssClass="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="CVV">CVV</label>
-                <asp:TextBox ID="CVV" runat="server" CssClass="form-control" />
-            </div>
-            <asp:Button ID="Button1" runat="server" Text="Checkout" CssClass="btn btn-success" />
-        </div>
         </div>
     </div>
 </asp:Content>
