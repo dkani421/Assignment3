@@ -417,40 +417,33 @@ namespace ComputerStore
             return totalPrice;
         }
 
-        private void UpdateOrderDetails(int orderID, string ram, string hardDrive, string cpu, string display, string os, string soundCard)
+        public void UpdateOrderDetails(int orderID, string ram, string hardDrive, string cpu, string display, string os, string soundCard)
         {
             try
             {
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
-
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // Retrieve ComponentID and Price values for the provided component names using CTE
-                    string updateOrderDetailsQuery = @"
-                WITH data as 
-                (
-                    SELECT ComponentID, Price
-                    FROM components C
-                    WHERE C.ComponentName IN (@RAM, @HardDrive, @CPU, @Display, @OS, @SoundCard)
-                )
-                UPDATE OrderDetails OD
-                JOIN data ON OD.ComponentID = data.ComponentID
-                SET OD.Price = data.Price
-                WHERE OD.OrderID = @OrderID";
+                    // Create a dictionary to map component names to their selected values
+                    Dictionary<string, (string Price, int Type)> componentMap = new Dictionary<string, (string Price, int Type)>
+                     {
+                         { "RAM",        (Price: ram,       Type: 1) },
+                         { "Hard Drive", (Price: hardDrive, Type: 2) },
+                         { "CPU",        (Price: cpu,       Type: 3) },
+                         { "Display",    (Price: display,   Type: 4) },
+                         { "OS",         (Price: os,        Type: 5) },
+                         { "Sound Card", (Price: soundCard, Type: 6) }
+                     };
 
-                    using (MySqlCommand command = new MySqlCommand(updateOrderDetailsQuery, connection))
+                    foreach (var entry in componentMap)
                     {
-                        command.Parameters.AddWithValue("@OrderID", orderID);
-                        command.Parameters.AddWithValue("@RAM", ram);
-                        command.Parameters.AddWithValue("@HardDrive", hardDrive);
-                        command.Parameters.AddWithValue("@CPU", cpu);
-                        command.Parameters.AddWithValue("@Display", display);
-                        command.Parameters.AddWithValue("@OS", os);
-                        command.Parameters.AddWithValue("@SoundCard", soundCard);
+                        // Fetch the component ID and price based on the selected value
+                        int componentID = GetComponentIDByPrice(connection, entry.Key, entry.Value.Price);
 
-                        command.ExecuteNonQuery();
+                        // Update the ComponentID and ComponentPrice for each component in the "orderdetails" table
+                        UpdateComponentInOrderDetails(connection, orderID, componentID, entry.Value.Type, entry.Value.Price);
                     }
                 }
             }
@@ -460,6 +453,61 @@ namespace ComputerStore
                 Console.WriteLine("Error updating order details: " + ex.Message);
             }
         }
+
+        private int GetComponentIDByPrice(MySqlConnection connection, string componentName, string price)
+        {
+            int componentID = -1; // Default value if not found
+
+            // Create a query to retrieve the component ID based on the component name that contains the given name (partial match)
+            // and where the price matches exactly.
+            string query = "SELECT ComponentID FROM components WHERE ComponentName LIKE @ComponentName AND Price = @Price";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                // Use '%' to perform a partial match based on the component name
+                command.Parameters.AddWithValue("@ComponentName", "%" + componentName + "%");
+                command.Parameters.AddWithValue("@Price", decimal.Parse(price));
+
+                // Execute the query and retrieve the component ID
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    componentID = Convert.ToInt32(result);
+                }
+            }
+
+            return componentID;
+        }
+
+
+        private void UpdateComponentInOrderDetails(MySqlConnection connection, int orderID, int newComponentID, int targetComponentType, string selectedValue)
+        {
+            string query = @"
+    UPDATE orderdetails od
+    SET od.ComponentID = @ComponentID, od.ComponentPrice = @ComponentPrice
+    WHERE od.OrderID = @OrderID AND od.ComponentType = @ComponentType";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@OrderID", orderID);
+                command.Parameters.AddWithValue("@ComponentID", newComponentID);
+                command.Parameters.AddWithValue("@ComponentType", targetComponentType);
+
+                if (!string.IsNullOrEmpty(selectedValue))
+                {
+                    // Convert the selected value to decimal and use it as the component price
+                    command.Parameters.AddWithValue("@ComponentPrice", decimal.Parse(selectedValue));
+                }
+                else
+                {
+                    // Handle the case where selectedValue is null or empty (if needed)
+                    // You can set a default value or handle it according to your business logic.
+                }
+
+                command.ExecuteNonQuery();
+            }
+        }
+
 
         private void UpdateOrderTotalPrice(int orderID, decimal totalPrice)
         {

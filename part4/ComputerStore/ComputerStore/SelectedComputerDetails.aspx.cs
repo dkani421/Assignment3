@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using MySql.Data.MySqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ComputerStore
 {
@@ -207,23 +208,32 @@ namespace ComputerStore
                 connection.Open();
 
                 // Modify the query to retrieve the component ID based on the component name
-                string componentIdQuery = "SELECT ComponentID FROM components WHERE ComponentName = @ComponentName";
+                string componentIdQuery = "SELECT ComponentID, ComponentType FROM components WHERE ComponentName = @ComponentName";
+
+                //string componentTypeQuery = "SELECT ComponentType FROM components WHERE ComponentName = @ComponentName";
 
                 using (MySqlCommand componentIdCommand = new MySqlCommand(componentIdQuery, connection))
                 {
                     componentIdCommand.Parameters.AddWithValue("@ComponentName", componentName);
-
-                    // Retrieve the component ID
-                    int componentId = Convert.ToInt32(componentIdCommand.ExecuteScalar());
+                    int componentID = 0;
+                    int componentType = 0;
+                    using (MySqlDataReader reader = componentIdCommand.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            componentID = Convert.ToInt32(reader["ComponentID"]);
+                            componentType = Convert.ToInt32(reader["ComponentType"]);
+                        }
+                    }
 
                     // Insert order details into the database
-                    string insertOrderDetailSql = "INSERT INTO orderdetails (OrderID, ComputerID, ComponentID, ComponentPrice) VALUES (@OrderID, @ComputerID, @ComponentID, @ComponentPrice);";
-
+                    string insertOrderDetailSql = "INSERT INTO orderdetails (OrderID, ComputerID, ComponentID, ComponentType, ComponentPrice) VALUES (@OrderID, @ComputerID, @ComponentID, @ComponentType, @ComponentPrice);";
                     using (MySqlCommand cmd = new MySqlCommand(insertOrderDetailSql, connection))
                     {
                         cmd.Parameters.AddWithValue("@OrderID", orderID);
                         cmd.Parameters.AddWithValue("@ComputerID", computerId);
-                        cmd.Parameters.AddWithValue("@ComponentID", componentId); // Use the retrieved component ID
+                        cmd.Parameters.AddWithValue("@ComponentID", componentID); // Use the retrieved component ID
+                        cmd.Parameters.AddWithValue("@ComponentType", componentType);
                         cmd.Parameters.AddWithValue("@ComponentPrice", componentPrice);
 
                         cmd.ExecuteNonQuery();
@@ -231,7 +241,6 @@ namespace ComputerStore
                 }
             }
         }
-
 
         protected Computer GetComputerById(int computerId)
         {
