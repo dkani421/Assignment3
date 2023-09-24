@@ -37,12 +37,10 @@ namespace ComputerStore
                     }
                     else
                     {
-                        // Handle case when selected computer is not found
                     }
                 }
                 else
                 {
-                    // Handle case when computerId is not valid
                 }
             }
             else

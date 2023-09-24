@@ -14,16 +14,12 @@ namespace ComputerStore
                 BindComputerData();
             }
         }
-
-        // Inside the BindComputerData method
         protected void BindComputerData()
         {
-            // Simulated data source, replace this with your actual data retrieval logic
             ComputerRepeater.DataSource = GetComputerData();
             ComputerRepeater.DataBind();
         }
 
-        // Inside the GetComputerData method
         protected List<Computer> GetComputerData()
         {
             List<Computer> computers = new List<Computer>();
@@ -42,7 +38,6 @@ namespace ComputerStore
                     string priceStr = parts[3];
                     string imagePath = parts[4];
 
-                    // Assume you have a method to extract the price from the description
                     int price = ExtractPriceFromDescription(priceStr);
 
                     // Create a new Computer object and add it to the list
@@ -61,7 +56,6 @@ namespace ComputerStore
             return computers;
         }
 
-        // Inside the ExtractPriceFromDescription method
         private int ExtractPriceFromDescription(string priceStr)
         {
             // Convert the price string to an integer

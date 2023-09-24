@@ -19,7 +19,7 @@ namespace ComputerStore
             string confirmPassword = txtConfirmPassword.Text;
             string email = txtEmail.Text; // Retrieve email input
 
-            // Validate inputs (you can add more validation as needed)
+            // Validate inputs 
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(email))
             {
                 lblMessage.Text = "Please fill in all fields.";
@@ -27,7 +27,7 @@ namespace ComputerStore
                 return;
             }
 
-            // Validate email format (you can use regular expressions or built-in methods)
+            // Validate email format 
             if (!IsValidEmail(email))
             {
                 lblMessage.Text = "Invalid email format.";
@@ -93,7 +93,7 @@ namespace ComputerStore
             }
             catch (Exception ex)
             {
-                // Handle any other exceptions (e.g., general exceptions)
+                // Handle any other exceptions 
                 lblMessage.Text = "An error occurred: " + ex.Message;
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Visible = true;

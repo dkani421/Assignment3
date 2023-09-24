@@ -100,14 +100,13 @@ namespace ComputerStore
                 lblRecoveryMessage.Text = "An error occurred. Please try again later.";
                 lblRecoveryMessage.ForeColor = System.Drawing.Color.Red;
                 lblRecoveryMessage.Visible = true;
-                // Log the exception for debugging
             }
         }
 
         // Generate a random password
         private string GenerateRandomPassword()
         {
-            // Generate a random password (you can customize the logic here)
+            // Generate a random password
             string newPassword = Guid.NewGuid().ToString().Substring(0, 8);
             return newPassword;
         }
@@ -135,8 +134,6 @@ namespace ComputerStore
             }
             catch
             {
-                // Handle database connection or query error
-                // Log the exception or perform appropriate error handling
             }
         }
 
@@ -144,7 +141,6 @@ namespace ComputerStore
         {
             string hashedPassword = null;
 
-            // Connect to the database and fetch the hashed password for the provided username
             try
             {
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
@@ -167,8 +163,6 @@ namespace ComputerStore
             }
             catch
             {
-                // Handle database connection or query error
-                // Log the exception or perform appropriate error handling
             }
 
             return hashedPassword;
@@ -198,7 +192,6 @@ namespace ComputerStore
             }
             catch
             {
-                // Handle database connection or query error
                 return false;
             }
         }

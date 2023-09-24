@@ -34,12 +34,10 @@ namespace ComputerStore
                     }
                     else
                     {
-                        // Handle case when selected computer is not found
                     }
                 }
                 else
                 {
-                    // Handle case when computerId is not valid
                 }
             }
             else
@@ -171,7 +169,6 @@ namespace ComputerStore
                                 Description = reader["Description"].ToString(),
                                 Price = Convert.ToDecimal(reader["Price"]),
                                 ImagePath = reader["ImageURL"].ToString(),
-                                // You may need to add more properties if required
                             };
                         }
                     }

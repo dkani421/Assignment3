@@ -67,7 +67,6 @@ namespace ComputerStore
                 }
                 else
                 {
-                    // Handle the case where the parameters are missing or cannot be parsed
                 }
             }
         }
@@ -107,7 +106,6 @@ namespace ComputerStore
             }
             else
             {
-                // Handle the case where computerId cannot be parsed
             }
         }
 
@@ -152,7 +150,6 @@ namespace ComputerStore
         {
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ComputerStoreDB"].ConnectionString;
 
-            // Modify the query to retrieve the component price based on the component name
             string query = "SELECT Price FROM components WHERE ComponentName = @ComponentName";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))

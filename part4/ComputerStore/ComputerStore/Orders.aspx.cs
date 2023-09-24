@@ -68,7 +68,6 @@ namespace ComputerStore
             }
             catch
             {
-                // If an error occurs, the customerId will remain as the default value (-1).
             }
 
             return customerId;
@@ -184,8 +183,6 @@ namespace ComputerStore
                             }
                             else
                             {
-                                // No order details found for the selected order
-                                // You can display a message here if needed
                             }
                         }
                     }
@@ -193,7 +190,6 @@ namespace ComputerStore
             }
             catch
             {
-                // Handle any exceptions
             }
         }
 
@@ -458,8 +454,6 @@ namespace ComputerStore
         {
             int componentID = -1; // Default value if not found
 
-            // Create a query to retrieve the component ID based on the component name that contains the given name (partial match)
-            // and where the price matches exactly.
             string query = "SELECT ComponentID FROM components WHERE ComponentName LIKE @ComponentName AND Price = @Price";
 
             using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -500,8 +494,6 @@ namespace ComputerStore
                 }
                 else
                 {
-                    // Handle the case where selectedValue is null or empty (if needed)
-                    // You can set a default value or handle it according to your business logic.
                 }
 
                 command.ExecuteNonQuery();
